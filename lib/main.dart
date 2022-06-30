@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 void main() => runApp(
     MaterialApp(
       title: "Thalès Informatique",
+
       routes: {
         "/":(context)=>Dashboard(),
         "/inventer":(context)=>InventaireForm()
