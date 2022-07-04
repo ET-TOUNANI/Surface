@@ -462,6 +462,10 @@ class _FormsPageState extends State<InventaireForm> {
                       value: 'agent3',
                       child: Text('Ibtissam Hani'),
                     ),
+                    DropdownMenuItem(
+                      value: 'autre',
+                      child: Text('autre'),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 16,),
