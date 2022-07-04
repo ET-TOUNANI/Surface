@@ -9,7 +9,7 @@ GetButtonNavigatBar(context){
         Navigator.of(context)
             .pushNamedAndRemoveUntil('/inventer', (Route<dynamic> route) => false);
         Navigator.pop(context);
-        Navigator.pushNamed(context, "/");
+        Navigator.pushNamed(context, "/home");
       }
       else{
         Navigator.pushNamed(context, "/aide");
