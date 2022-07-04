@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:exemple1/configs/AppBar.config.dart';
 
-class Dashboard extends StatelessWidget {
-  const Dashboard({Key? key}) : super(key: key);
+import 'package:exemple1/db/thales.dart';
 
+class Dashboard extends StatelessWidget {
+   Dashboard({Key? key}) : super(key: key);
+  Sqldb db = Sqldb();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,8 +56,52 @@ class Dashboard extends StatelessWidget {
                       children: [
                         _getSizedBox(
                             context, "calendar", "Exporter", 5, "/exporter"),
-                        _getSizedBox(context, "note", "Réinitialiser", 6,
-                            "/reinitialiser"),
+                        SizedBox(
+                          width: 154.0,
+                          height: 160.0,
+                          child: Material(
+                            color: const Color.fromARGB(255, 21, 21, 21),
+                            elevation: 8,
+                            borderRadius: BorderRadius.circular(10),
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            child: InkWell(
+                              splashColor: Colors.black26,
+                              onTap: () {
+
+                                reinitialiser(context);
+                              },
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Ink.image(
+                                    image:  AssetImage('assets/note.png'),
+                                    height: 80,
+                                    width: 64.0,
+                                    //fit: BoxFit.cover,
+                                  ),
+                                  const SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  Text(
+                                    "Réinitialiser",
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20.0),
+                                  ),
+                                  const SizedBox(
+                                    height: 5.0,
+                                  ),
+                                  Text(
+                                    "6",
+                                    style: const TextStyle(
+                                        color: Colors.white, fontWeight: FontWeight.w800),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ],
@@ -65,6 +111,62 @@ class Dashboard extends StatelessWidget {
           ],
         )));
   }
+   reinitialiser(BuildContext context) {
+     return showModalBottomSheet<void>(
+       context: context,
+       isScrollControlled: true,
+       builder: (BuildContext context) {
+         return Padding(
+           padding: MediaQuery.of(context).viewInsets,
+           child: Container(
+             height: 150,
+             child: Column(
+               mainAxisAlignment: MainAxisAlignment.spaceAround,
+               mainAxisSize: MainAxisSize.min,
+               children: <Widget>[
+                 const SizedBox(height: 5),
+                 Center(
+                   child: Text(
+                     "Voullez-vous vraiment réinitialiser l'application ?",
+                     style: TextStyle(fontSize: 20, color: Colors.black),
+                   ),
+                 ),
+                 const SizedBox(height: 5),
+                 Row(
+                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                   children: [
+                     ElevatedButton(
+                       style:
+                       ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
+                       child: const Text('Oui'),
+                       onPressed: () async {
+                         await db
+                             .myDeleteDatabase();
+                         Navigator.pop(context);
+                         ScaffoldMessenger.of(context).showSnackBar(
+                           SnackBar(
+                               content: Text(
+                                 'L\'application est bien réinitialiser',
+                                 style: TextStyle(color: Colors.green),
+                               )),
+                         );
+                       },
+                     ),
+                     ElevatedButton(
+                       style:
+                       ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
+                       child: const Text('Cancel'),
+                       onPressed: () => Navigator.pop(context),
+                     )
+                   ],
+                 )
+               ],
+             ),
+           ),
+         );
+       },
+     );
+   }
 }
 
 //To avoid re-writing the same code in the menu buttons.
@@ -121,3 +223,4 @@ _getSizedBox(
     ),
   );
 }
+
