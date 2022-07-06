@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:exemple1/configs/AppBar.config.dart';
-
 import 'package:exemple1/configs/GetButtonNavigatBar.config.dart';
 import 'package:exemple1/db/thales.dart';
 
 class GetLieu extends StatefulWidget {
   GetLieu({Key? key}) : super(key: key);
-
   @override
   State<GetLieu> createState() => _GetLieuState();
 }
@@ -15,26 +12,93 @@ class GetLieu extends StatefulWidget {
 class _GetLieuState extends State<GetLieu> {
   Sqldb db = Sqldb();
   final formKey = GlobalKey<FormState>();
+  final formKey2 = GlobalKey<FormState>();
+  TextEditingController search = new TextEditingController();
   int counter = 0;
+  String sql = 'SELECT * FROM lieu';
   TextEditingController adresse = new TextEditingController();
   TextEditingController etage = new TextEditingController();
   TextEditingController champ1 = new TextEditingController();
 
-  Future<List<Map>> _readData() async {
-    List<Map> res = await db.rawReadData("SELECT * FROM lieu");
-    return res;
+  // search famille by libelle
+  Search(searchValue) {
+    setState(() {
+      sql = "SELECT * FROM lieu where adresse like '$searchValue%'";
+    });
   }
 
   //read all data from db
-
+  Future<List<Map>> _readData() async {
+    List<Map> res = await db.rawReadData(sql);
+    return res;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: GetAppBare(),
       body: ListView(children: <Widget>[
+        // search form
+        Container(
+          height: 100,
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Form(
+                  key: formKey2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: SizedBox(
+                      width: 305,
+                      child: TextFormField(
+                        controller: search,
+                        //  controller: controller,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        maxLines: null,
+                        style: TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          hintText: "Recherche par adresse...",
+                          hintStyle: TextStyle(color: Colors.white38),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: Colors.green),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                            const BorderSide(color: Color(0xff5F59E1)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                            const BorderSide(color: Color(0xff5F59E1)),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                          labelStyle: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.green,
+                          ),
+                          isDense: true,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.search,color: Colors.white,size: 40,),
+                  onPressed: () => Search(search.text),
+                )
+              ],
+            ),
+          ),
+        ),
         const SizedBox(
-          height: 16,
+          height: 10,
         ),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Row(
@@ -89,7 +153,7 @@ class _GetLieuState extends State<GetLieu> {
                                           maxLines: null,
                                           style: TextStyle(color: Colors.black),
                                           decoration: InputDecoration(
-                                            labelText: 'Adresse',
+                                            labelText: 'Adresse *',
                                             border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(30),
@@ -169,12 +233,6 @@ class _GetLieuState extends State<GetLieu> {
                                             ),
                                             isDense: true,
                                           ),
-                                          validator: (String? value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Champ vide';
-                                            }
-                                          },
                                         ),
                                         const SizedBox(
                                           height: 16,
@@ -218,12 +276,6 @@ class _GetLieuState extends State<GetLieu> {
                                             ),
                                             isDense: true,
                                           ),
-                                          validator: (String? value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Champ vide';
-                                            }
-                                          },
                                         ),
                                       ],
                                     ),
@@ -245,7 +297,7 @@ class _GetLieuState extends State<GetLieu> {
                                             'Le formulaire n\'est pas valide';
                                         if (formValid) {
                                           int response = await db.rawInsertData(
-                                              "INSERT INTO lieu (adresse,etage,champ1) VALUES('${adresse.text}',${etage.text},'${champ1.text}')");
+                                              "INSERT INTO lieu (adresse,etage,champ1) VALUES('${adresse.text}',${(etage.text != '')?etage.text:0},'${(champ1.text != '')?champ1.text:''}')");
                                           setState(() {
                                             _readData();
                                             ++counter;
@@ -316,6 +368,7 @@ class _GetLieuState extends State<GetLieu> {
         const SizedBox(
           height: 16,
         ),
+        // display all the data in a card
         FutureBuilder(
             future: _readData(),
             builder: (BuildContext context, AsyncSnapshot<List<Map>> snapshot) {
@@ -329,10 +382,10 @@ class _GetLieuState extends State<GetLieu> {
                         color: Color.fromARGB(255, 52, 52, 52),
                         child: ListTile(
                           title: Text(
-                              "${snapshot.data![i]['adresse']}    |   ${snapshot.data![i]['champ1']}",
+                              "Adresse : ${snapshot.data![i]['adresse']}    |   ${snapshot.data![i]['champ1']}",
                               style:
                                   TextStyle(fontSize: 20, color: Colors.white)),
-                          subtitle: Text("${snapshot.data![i]['etage']}",
+                          subtitle: Text("Etage : ${snapshot.data![i]['etage']}",
                               style:
                                   TextStyle(fontSize: 20, color: Colors.white)),
                           trailing: IconButton(
@@ -356,7 +409,7 @@ class _GetLieuState extends State<GetLieu> {
       bottomNavigationBar: GetButtonNavigatBar(context),
     );
   }
-
+// delete function by showing a modal
   deleteLieu(BuildContext context, int id) {
     return showModalBottomSheet<void>(
       context: context,

@@ -141,7 +141,15 @@ class Dashboard extends StatelessWidget {
                        child: const Text('Oui'),
                        onPressed: () async {
                          await db
-                             .myDeleteDatabase();
+                             .emptyTable("famille");
+                         await db
+                             .emptyTable("lieu");
+                         await db
+                             .emptyTable("immo");
+                         await db
+                             .emptyTable("situation");
+                         await db
+                             .emptyTable("agent");
                          Navigator.pop(context);
                          ScaffoldMessenger.of(context).showSnackBar(
                            SnackBar(

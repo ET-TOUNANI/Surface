@@ -74,7 +74,12 @@ class _FormsPageState extends State<InventaireForm> {
                     if (value == null || value.isEmpty) {
                       return 'Catégorie vide';
                     }
-                  },
+                  },//recherche point d'amelioration
+                  // code + designa+famille les infos oblog de l immo
+                  // agent standard 1 + lieu standard 2 + divert
+                  // GUEST
+                  // default value of "etat " is "bonne etat"
+                  // test storage 
                   onChanged: (String? newValue) {
                     if (newValue != null) {
                       setState(() {

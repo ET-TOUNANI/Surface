@@ -15,15 +15,24 @@ class GetFamille extends StatefulWidget {
 class _GetFamilleState extends State<GetFamille> {
   Sqldb db = Sqldb();
   final formKey = GlobalKey<FormState>();
+  final formKey2 = GlobalKey<FormState>();
   int counter = 0;
+  String sql = 'SELECT * FROM famille';
   TextEditingController famile = new TextEditingController();
+  TextEditingController search = new TextEditingController();
 
-  Future<List<Map>> _readData() async {
-    List<Map> res = await db.rawReadData("SELECT * FROM famille");
-    return res;
+  // search famille by libelle
+  Search(searchValue) {
+    setState(() {
+      sql = "SELECT * FROM famille where libelle like '$searchValue%'";
+    });
   }
 
   //read all data from db
+  Future<List<Map>> _readData() async {
+    List<Map> res = await db.rawReadData(sql);
+    return res;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +40,66 @@ class _GetFamilleState extends State<GetFamille> {
       backgroundColor: Colors.black,
       appBar: GetAppBare(),
       body: ListView(children: <Widget>[
+        Container(
+          height: 100,
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Form(
+                  key: formKey2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: SizedBox(
+                      width: 305,
+                        child: TextFormField(
+                          controller: search,
+                          //  controller: controller,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          maxLines: null,
+                          style: TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            hintText: "Recherche par libelle ...",
+                            hintStyle: TextStyle(color: Colors.white38),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: const BorderSide(color: Colors.green),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                                  const BorderSide(color: Color(0xff5F59E1)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                                  const BorderSide(color: Color(0xff5F59E1)),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                            labelStyle: const TextStyle(
+                              fontSize: 20,
+                              color: Colors.green,
+                            ),
+                            isDense: true,
+                          ),
+                        ),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.search,color: Colors.white,size: 40,),
+                  onPressed: () => Search(search.text),
+                )
+              ],
+            ),
+          ),
+        ),
         const SizedBox(
-          height: 16,
+          height: 10,
         ),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Row(
@@ -65,9 +132,7 @@ class _GetFamilleState extends State<GetFamille> {
                       context: context,
                       builder: (BuildContext context) {
                         return Padding(
-                          padding: MediaQuery
-                              .of(context)
-                              .viewInsets,
+                          padding: MediaQuery.of(context).viewInsets,
                           child: Container(
                             height: 200,
                             child: Column(
@@ -92,25 +157,25 @@ class _GetFamilleState extends State<GetFamille> {
                                             labelText: 'Famille',
                                             border: OutlineInputBorder(
                                               borderRadius:
-                                              BorderRadius.circular(30),
+                                                  BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Colors.green),
                                             ),
                                             enabledBorder: OutlineInputBorder(
                                               borderRadius:
-                                              BorderRadius.circular(30),
+                                                  BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Color(0xff5F59E1)),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderRadius:
-                                              BorderRadius.circular(30),
+                                                  BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Color(0xff5F59E1)),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderRadius:
-                                              BorderRadius.circular(30),
+                                                  BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Colors.red),
                                             ),
@@ -136,7 +201,7 @@ class _GetFamilleState extends State<GetFamille> {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceAround,
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
@@ -150,17 +215,16 @@ class _GetFamilleState extends State<GetFamille> {
                                             'Le formulaire n\'est pas valide';
                                         if (formValid) {
                                           int response = await db.rawInsertData(
-                                              "INSERT INTO famille (libelle) VALUES('${famile
-                                                  .text}')");
+                                              "INSERT INTO famille (libelle) VALUES('${famile.text}')");
                                           setState(() {
                                             _readData();
                                             ++counter;
                                           });
                                           (response != 0)
                                               ? message =
-                                          'la famille est bien ajouter $response'
+                                                  'la famille est bien ajouter $response'
                                               : message =
-                                          'Le formulaire n\'est pas valide';
+                                                  'Le formulaire n\'est pas valide';
                                         }
 
                                         Navigator.pop(context);
@@ -168,17 +232,17 @@ class _GetFamilleState extends State<GetFamille> {
                                             .showSnackBar(
                                           SnackBar(
                                             content: (message ==
-                                                'Le formulaire n\'est pas valide')
+                                                    'Le formulaire n\'est pas valide')
                                                 ? Text(
-                                              message,
-                                              style: TextStyle(
-                                                  color: Colors.red),
-                                            )
+                                                    message,
+                                                    style: TextStyle(
+                                                        color: Colors.red),
+                                                  )
                                                 : Text(
-                                              message,
-                                              style: TextStyle(
-                                                  color: Colors.green),
-                                            ),
+                                                    message,
+                                                    style: TextStyle(
+                                                        color: Colors.green),
+                                                  ),
                                           ),
                                         );
                                       },
@@ -236,7 +300,7 @@ class _GetFamilleState extends State<GetFamille> {
                         child: ListTile(
                           title: Text("${snapshot.data![i]['libelle']}",
                               style:
-                              TextStyle(fontSize: 20, color: Colors.white)),
+                                  TextStyle(fontSize: 20, color: Colors.white)),
                           trailing: IconButton(
                             onPressed: () {
                               deleteFamille(context, snapshot.data![i]['id']);
@@ -265,9 +329,7 @@ class _GetFamilleState extends State<GetFamille> {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return Padding(
-          padding: MediaQuery
-              .of(context)
-              .viewInsets,
+          padding: MediaQuery.of(context).viewInsets,
           child: Container(
             height: 150,
             child: Column(
@@ -278,19 +340,20 @@ class _GetFamilleState extends State<GetFamille> {
                 Center(
                   child: Text(
                     "Voullez-vous vraiment supprimer cette famille ?",
-                    style:
-                    TextStyle(fontSize: 20, color: Colors.black),),
+                    style: TextStyle(fontSize: 20, color: Colors.black),
+                  ),
                 ),
                 const SizedBox(height: 5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Color(0xff5F59E1)),
+                      style:
+                          ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
                       child: const Text('Oui'),
                       onPressed: () async {
-                        await db.rawDeleteData("DELETE FROM famille WHERE id=${id}");
+                        await db.rawDeleteData(
+                            "DELETE FROM famille WHERE id=${id}");
                         setState(() {
                           _readData();
                           ++counter;
@@ -298,18 +361,16 @@ class _GetFamilleState extends State<GetFamille> {
                         Navigator.pop(context);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                              content:
-                              Text('famille est bien supprimer'
-                                ,
-                                style: TextStyle(color: Colors.green),
-                              )
-                          ),
+                              content: Text(
+                            'famille est bien supprimer',
+                            style: TextStyle(color: Colors.green),
+                          )),
                         );
                       },
                     ),
                     ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Color(0xff5F59E1)),
+                      style:
+                          ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
                       child: const Text('Cancel'),
                       onPressed: () => Navigator.pop(context),
                     )
@@ -321,8 +382,5 @@ class _GetFamilleState extends State<GetFamille> {
         );
       },
     );
-
   }
-
 }
-

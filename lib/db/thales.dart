@@ -5,13 +5,14 @@ import 'package:path/path.dart';
 class Sqldb {
   static Database? _db;
 
+  // call database if exist . if not call initDb
   Future<Database?> get db async {
     if (_db == null) {
       _db = await initilDb();
     }
       return _db;
   }
-
+  // create thales db
   initilDb() async {
     String databasepath = await getDatabasesPath();
 
@@ -22,13 +23,15 @@ class Sqldb {
 
     return mydb;
   }
-
+  // upgrade the db ( adding some table without losing the last data )
+  // to call it just change the number of the version in the method above
   __onUpgade(Database db, int oldversion, int newversion) async {
     // CallBack when version upgrade
     //  print("===============================") ;
     //  print("Upgrade new : $newversion") ;
     //  print("Upgrade old : $oldversion") ;
   }
+  // create tables of the db using Batch
   _oncreate(Database db, int version) async {
     // CallBack only  once
 
@@ -90,37 +93,6 @@ class Sqldb {
     ''');
 
 
-    batch.execute('''
-    CREATE TABLE  IF NOT EXISTS "groupitems" 
-    ("id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-    "subitemsid" INTEGER ,
-    "name"	TEXT NOT NULL , 
-    "namear"	TEXT NOT NULL , 
-    "price" num REAL , 
-    "groupid" INTEGER ,
-    "groupname" TEXT NOT NULL ,
-    "groupnamear" TEXT NOT NULL ,
-    "groupitemsid" INTEGER ,
-    "itemsid" INTEGER
-    )
-    ''');
-    //
-    // End Cart  ==============================================
-
-    // Start Account Save  ==============================================
-    batch.execute('''
-    CREATE TABLE  IF NOT EXISTS "account" 
-    (
-    "id"	INTEGER                 ,
-    "username" TEXT NOT NULL      ,
-    "email"	TEXT NOT NULL         , 
-    "phone"	INTEGER               , 
-    "balance" num REAL            , 
-    "type" TEXT NOT NULL          , 
-    "deliveryservice" INTEGER     , 
-    "token" TEXT NOT NULL    
-    )
-    ''');
     // End  Account Save  ==============================================
     List<dynamic> response = await batch.commit();
     // ==================== For one Table
@@ -128,20 +100,20 @@ class Sqldb {
     //     'CREATE TABLE "notes" ("id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"note"	TEXT NOT NULL)');
     print("INSERT TABLE SUCCESS $response");
   }
-
+  // read data from db (we write just the name of the table)
   readData(String table) async {
     Database? mydb = await db;
     List<Map> response = await mydb!.query(table);
     return response;
   }
-
+  // read data with filter for exemple  (we write the name of the table and the where option)
   readDataWithFilter(String table, String wheredata, List listvalue) async {
     Database? mydb = await db;
     List<Map> response =
     await mydb!.query(table, where: wheredata, whereArgs: listvalue);
     return response;
   }
-
+  // we write all the query sql ( select * from .... where ....)
   rawReadData(String sql) async {
     Database? mydb = await db;
 
@@ -149,7 +121,7 @@ class Sqldb {
 
     return response;
   }
-
+  // insert data to db by giving the name of the table and the list of values
   insertData(String table, Map<String, Object?> data) async {
     Database? mydb = await db;
 
@@ -157,7 +129,7 @@ class Sqldb {
 
     return response;
   }
-
+// insert data by writing all the query ( insert into .. values ...)
   rawInsertData(String sql) async {
     Database? mydb = await db;
 
@@ -165,7 +137,7 @@ class Sqldb {
 
     return response;
   }
-
+  // update the data by giving the table , the new values , the where condition
   updateData(String table, Map<String, Object?> data, String wheredata,
       List listvalue) async {
     Database? mydb = await db;
@@ -175,7 +147,7 @@ class Sqldb {
 
     return response;
   }
-
+  // update data by write all the query ( update ..set ... where..)
   rawUpdateData(String sql) async {
     Database? mydb = await db;
 
@@ -183,7 +155,7 @@ class Sqldb {
 
     return response;
   }
-
+  // delete data by giving the table the where condition
   deleteData(String table, String wheredata, List listvalue) async {
     Database? mydb = await db;
 
@@ -192,7 +164,7 @@ class Sqldb {
 
     return response;
   }
-
+  // delete data by giving all the query
   rawDeleteData(String sql) async {
     Database? mydb = await db;
 
@@ -200,13 +172,13 @@ class Sqldb {
 
     return response;
   }
-
+  // empty all the tables
   emptyTable(table) async {
     Database? mydb = await db;
     int response = await mydb!.delete(table);
     return response;
   }
-
+// delete database completely (be careful)
   myDeleteDatabase() async {
     String databasepath = await getDatabasesPath();
     String path = join(databasepath, "thales.db");
