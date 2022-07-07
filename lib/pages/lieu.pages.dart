@@ -195,35 +195,35 @@ class _GetLieuState extends State<GetLieu> {
                                           height: 16,
                                         ),
                                         TextFormField(
-                                          controller: etage,
+                                          controller: champ1,
                                           //  controller: controller,
                                           autovalidateMode: AutovalidateMode
                                               .onUserInteraction,
                                           maxLines: null,
                                           style: TextStyle(color: Colors.black),
                                           decoration: InputDecoration(
-                                            labelText: 'Etage',
+                                            labelText: 'code barre *',
                                             border: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Colors.green),
                                             ),
                                             enabledBorder: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Color(0xff5F59E1)),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Color(0xff5F59E1)),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Colors.red),
                                             ),
@@ -233,19 +233,25 @@ class _GetLieuState extends State<GetLieu> {
                                             ),
                                             isDense: true,
                                           ),
+                                          validator: (String? value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Champ vide';
+                                            }
+                                          },
                                         ),
                                         const SizedBox(
                                           height: 16,
                                         ),
                                         TextFormField(
-                                          controller: champ1,
+                                          controller: etage,
                                           //  controller: controller,
                                           autovalidateMode: AutovalidateMode
                                               .onUserInteraction,
                                           maxLines: null,
                                           style: TextStyle(color: Colors.black),
                                           decoration: InputDecoration(
-                                            labelText: 'Champ1',
+                                            labelText: 'Etage',
                                             border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(30),
@@ -297,7 +303,7 @@ class _GetLieuState extends State<GetLieu> {
                                             'Le formulaire n\'est pas valide';
                                         if (formValid) {
                                           int response = await db.rawInsertData(
-                                              "INSERT INTO lieu (adresse,etage,champ1) VALUES('${adresse.text}',${(etage.text != '')?etage.text:0},'${(champ1.text != '')?champ1.text:''}')");
+                                              "INSERT INTO lieu (adresse,etage,code_bare) VALUES('${adresse.text}',${(etage.text != '')?etage.text:0},'${champ1.text}')");
                                           setState(() {
                                             _readData();
                                             ++counter;
@@ -382,7 +388,7 @@ class _GetLieuState extends State<GetLieu> {
                         color: Color.fromARGB(255, 52, 52, 52),
                         child: ListTile(
                           title: Text(
-                              "Adresse : ${snapshot.data![i]['adresse']}    |   ${snapshot.data![i]['champ1']}",
+                              "Adresse : ${snapshot.data![i]['adresse']}    ",
                               style:
                                   TextStyle(fontSize: 20, color: Colors.white)),
                           subtitle: Text("Etage : ${snapshot.data![i]['etage']}",

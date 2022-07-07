@@ -9,7 +9,9 @@ class Sqldb {
   Future<Database?> get db async {
     if (_db == null) {
       _db = await initilDb();
+
     }
+
       return _db;
   }
   // create thales db
@@ -63,6 +65,7 @@ class Sqldb {
     ("id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     "adresse"	TEXT NOT NULL,
     "etage" INTEGER,
+    "code_bare" TEXT NOT NULL UNIQUE,
     "champ1" TEXT,
     "champ2" TEXT,
     "champ3" TEXT,
@@ -77,13 +80,12 @@ class Sqldb {
     "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     "code_bare"	TEXT NOT NULL , 
     "ancien_code_bare" TEXT  , 
-    "etat" TEXT  , 
+    "etat" TEXT  DEFAULT 'Bonne qualité', 
     "description"  TEXT ,
-    "itemsid" INTEGER , 
     "is_exporte" INTEGER ,
     "is_importer" INTEGER , 
     "id_agent"  INTEGER ,
-    "id_famille" INTEGER,
+    "id_famille" INTEGER ,
     "id_lieu" INTEGER,
     FOREIGN KEY("id_agent") REFERENCES agent("id"),
     FOREIGN KEY("id_famille") REFERENCES agent("id"),
@@ -95,6 +97,11 @@ class Sqldb {
 
     // End  Account Save  ==============================================
     List<dynamic> response = await batch.commit();
+    await db.rawInsert(
+        "INSERT INTO lieu (adresse,etage,champ1,code_bare) VALUES('Lieu standard',0,'','0000')");
+    await db.rawInsert(
+        "INSERT INTO agent (nom,prenom) VALUES('Agent','standard')");
+
     // ==================== For one Table
     // await db.execute(
     //     'CREATE TABLE "notes" ("id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"note"	TEXT NOT NULL)');
@@ -120,6 +127,16 @@ class Sqldb {
     List<Map> response = await mydb!.rawQuery(sql);
 
     return response;
+  }
+  //if the field exist or not in the db
+  isExist(String sql) async {
+    Database? mydb = await db;
+
+    List<Map> response = await mydb!.rawQuery(sql);
+    if(response.isNotEmpty){
+      return response.map((e) => e['id']);
+    }
+    return -1;
   }
   // insert data to db by giving the name of the table and the list of values
   insertData(String table, Map<String, Object?> data) async {
