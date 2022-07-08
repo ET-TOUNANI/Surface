@@ -19,9 +19,12 @@ class ScanImmo extends StatefulWidget {
 class _ScanImmoState extends State<ScanImmo> {
   Sqldb db = Sqldb();
   var item = [];
-  final controller = TextEditingController();
   int current = 0;
   List<Widget> res = [];
+  final formKey = GlobalKey<FormState>();
+  String famille = "";
+  TextEditingController etatController = new TextEditingController();
+  TextEditingController descriptionController = new TextEditingController();
 
   @override
   void initState() {
@@ -140,110 +143,237 @@ class _ScanImmoState extends State<ScanImmo> {
       backgroundColor: Colors.black,
       appBar: GetAppBare(),
       body: SingleChildScrollView(
-        child: (current == 0)
-            ? Column(
-                children: [
-                  Center(
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 60,
-                        ),
-                        Text(
-                          "3/3",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20),
-                        ),
-                        Text(
-                          "Etape 3",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w200,
-                              fontSize: 18),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 100,
-                  ),
-                  Center(
-                      child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: (current != 2)
+            ? Container(
+                child: (current == 0)
+                    ? Column(
                         children: [
-                          InputChip(
-                            label: Semantics(
-                              child: Text('Agent : ${item[0]}'),
-                            ),
-                            shadowColor: Colors.black12,
-                            avatar: Icon(Icons.boy),
-                            elevation: 20,
-                            onPressed: () {
-                              UpdateAgent(context);
-                            },
-                          ),
-                          InputChip(
-                            label: Semantics(
-                              child: Text('Lieu : ${item[1]}'),
-                            ),
-                            shadowColor: Colors.black12,
-                            avatar: Icon(Icons.place),
-                            elevation: 20,
-                            onPressed: () {
-                              UpdateLieu(context, item[0]);
-                            },
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 60,
-                      ),
-                      SizedBox(
-                        width: 300,
-                        child: Material(
-                          color: Color.fromARGB(255, 33, 33, 33),
-                          elevation: 8,
-                          borderRadius: BorderRadius.circular(10),
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: InkWell(
-                            splashColor: Colors.black26,
-                            onTap: () {
-                              scanMe();
-                            },
+                          Center(
                             child: Column(
-                              mainAxisSize: MainAxisSize.min,
                               children: [
-                                Ink.image(
-                                  image: const AssetImage('assets/scanner.png'),
-                                  height: 120,
-                                  width: 300,
-                                  fit: BoxFit.cover,
-                                ),
                                 const SizedBox(
-                                  height: 15,
+                                  height: 60,
                                 ),
-                                const Text(
-                                  "Scanner le code-barre de l'immo",
+                                Text(
+                                  "3/3",
                                   style: TextStyle(
-                                      fontSize: 20, color: Colors.white),
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
                                 ),
-                                const SizedBox(
-                                  height: 14,
-                                )
+                                Text(
+                                  "Etape 3",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w200,
+                                      fontSize: 18),
+                                ),
                               ],
                             ),
                           ),
+                          const SizedBox(
+                            height: 100,
+                          ),
+                          Center(
+                              child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  InputChip(
+                                    label: Semantics(
+                                      child: Text('Agent : ${item[0]}'),
+                                    ),
+                                    shadowColor: Colors.black12,
+                                    avatar: Icon(Icons.boy),
+                                    elevation: 20,
+                                    onPressed: () {
+                                      UpdateAgent(context);
+                                    },
+                                  ),
+                                  InputChip(
+                                    label: Semantics(
+                                      child: Text('Lieu : ${item[1]}'),
+                                    ),
+                                    shadowColor: Colors.black12,
+                                    avatar: Icon(Icons.place),
+                                    elevation: 20,
+                                    onPressed: () {
+                                      UpdateLieu(context, item[0]);
+                                    },
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 60,
+                              ),
+                              SizedBox(
+                                width: 300,
+                                child: Material(
+                                  color: Color.fromARGB(255, 33, 33, 33),
+                                  elevation: 8,
+                                  borderRadius: BorderRadius.circular(10),
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  child: InkWell(
+                                    splashColor: Colors.black26,
+                                    onTap: () {
+                                      scanMe();
+                                    },
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Ink.image(
+                                          image: const AssetImage(
+                                              'assets/scanner.png'),
+                                          height: 120,
+                                          width: 300,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        const SizedBox(
+                                          height: 15,
+                                        ),
+                                        const Text(
+                                          "Scanner le code-barre de l'immo",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white),
+                                        ),
+                                        const SizedBox(
+                                          height: 14,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ))
+                        ],
+                      )
+                    : res.first,
+              )
+            : Form(
+                key: formKey,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: etatController,
+                        //  controller: controller,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        maxLines: null,
+                        style: TextStyle(color: Colors.black),
+                        decoration: InputDecoration(
+                          labelText: 'Etat',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: Colors.green),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                                const BorderSide(color: Color(0xff5F59E1)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                                const BorderSide(color: Color(0xff5F59E1)),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                          labelStyle: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.green,
+                          ),
+                          isDense: true,
                         ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      TextFormField(
+                        controller: descriptionController,
+                        //  controller: controller,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        maxLines: null,
+                        style: TextStyle(color: Colors.black),
+                        decoration: InputDecoration(
+                          labelText: 'Description',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: Colors.green),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                                const BorderSide(color: Color(0xff5F59E1)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                                const BorderSide(color: Color(0xff5F59E1)),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                          labelStyle: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.green,
+                          ),
+                          isDense: true,
+                        ),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Color(0xff5F59E1)),
+                        child: const Text('Ajouter'),
+                        onPressed: () {
+                          /*var formValid =
+                              formKey.currentState?.validate() ??
+                                  false;
+                          var message =
+                              'Le formulaire n\'est pas valide';
+                          if (formValid) {
+                            int response = await db.rawInsertData(
+                                "INSERT INTO lieu (adresse,etage,code_bare) VALUES('${adresse.text}',${(etage.text != '')?etage.text:0},'${champ1.text}')");
+
+                            (response != 0)
+                                ? message =
+                            'le lieu est bien ajouter $response'
+                                : message =
+                            'Le formulaire n\'est pas valide';
+                          }
+
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(
+                            SnackBar(
+                              content: (message ==
+                                  'Le formulaire n\'est pas valide')
+                                  ? Text(
+                                message,
+                                style: TextStyle(
+                                    color: Colors.red),
+                              )
+                                  : Text(
+                                message,
+                                style: TextStyle(
+                                    color: Colors.green),
+                              ),
+                            ),
+                          );*/
+                        },
                       )
                     ],
-                  ))
-                ],
-              )
-            : res.first,
+                  ),
+                ),
+              ),
       ),
       bottomNavigationBar: GetButtonNavigatBar(context),
     );
@@ -277,13 +407,16 @@ class _ScanImmoState extends State<ScanImmo> {
               style: TextStyle(color: Colors.red),
             )),
           );
+          setState(() {
+            current = 2;
+          });
         }
       });
-
     }
   }
 }
 
+// show the agent ship
 UpdateAgent(BuildContext context) {
   return showModalBottomSheet<void>(
     context: context,
@@ -331,6 +464,7 @@ UpdateAgent(BuildContext context) {
   );
 }
 
+// show the lieu ship
 UpdateLieu(BuildContext context, String item) {
   return showModalBottomSheet<void>(
     context: context,
