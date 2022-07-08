@@ -310,7 +310,7 @@ class _GetLieuState extends State<GetLieu> {
                                           });
                                           (response != 0)
                                               ? message =
-                                                  'la famille est bien ajouter $response'
+                                                  'le lieu est bien ajouter $response'
                                               : message =
                                                   'Le formulaire n\'est pas valide';
                                         }
