@@ -21,7 +21,7 @@ class Sqldb {
     String path = join(databasepath, "thales.db");
 
     Database? mydb = await openDatabase(path,
-        version: 3, onCreate: _oncreate, onUpgrade: __onUpgade);
+        version: 4, onCreate: _oncreate, onUpgrade: __onUpgade);
 
     return mydb;
   }
@@ -84,28 +84,41 @@ class Sqldb {
     "description"  TEXT ,
     "is_exporte" INTEGER ,
     "is_importer" INTEGER , 
-    "id_agent"  INTEGER ,
     "id_famille" INTEGER ,
     "id_lieu" INTEGER,
-    FOREIGN KEY("id_agent") REFERENCES agent("id"),
-    FOREIGN KEY("id_famille") REFERENCES agent("id"),
     FOREIGN KEY("id_famille") REFERENCES famille("id"),
     FOREIGN KEY("id_lieu") REFERENCES lieu("id")
     )
     ''');
-
+    batch.execute('''
+    CREATE TABLE  IF NOT EXISTS "scan" 
+    ("id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    "time"	TEXT ,
+    "Quantity" TEXT DEFAULT '1',
+    "date" TEXT,
+    "id_agent"	INTEGER,
+    "id_immo"	INTEGER,
+    FOREIGN KEY("id_immo") REFERENCES immo("id"),
+    FOREIGN KEY("id_agent") REFERENCES agent("id")
+    )
+    ''');
 
     // End  Account Save  ==============================================
     List<dynamic> response = await batch.commit();
-    await db.rawInsert(
+    int res1=await db.rawInsert(
         "INSERT INTO lieu (adresse,etage,champ1,code_bare) VALUES('Lieu standard',0,'','0000')");
     await db.rawInsert(
         "INSERT INTO agent (nom,prenom) VALUES('Agent','standard')");
-
+    int res3=await db.rawInsert(
+        "INSERT INTO famille (libelle) VALUES('pc')");
+    int res2=await db.rawInsert(
+        "INSERT INTO immo "
+            "(code_bare,ancien_code_bare,description,is_exporte,is_importer,id_famille,id_lieu)"
+            " VALUES('746775036744','746775036744','abc derf gij nijsq laq az d f g h j ky t r e d  v',1,1,$res3,$res1)");
     // ==================== For one Table
     // await db.execute(
     //     'CREATE TABLE "notes" ("id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"note"	TEXT NOT NULL)');
-    print("INSERT TABLE SUCCESS $response");
+    print("INSERT TABLE SUCCESS  | $response | $res3 | $res1 | $res2");
   }
   // read data from db (we write just the name of the table)
   readData(String table) async {
