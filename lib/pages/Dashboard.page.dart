@@ -152,6 +152,7 @@ class Dashboard extends StatelessWidget {
                              .emptyTable("situation");
                          await db
                              .emptyTable("agent");
+                         await db.rawInsertData("INSERT INTO agent (nom,prenom) VALUES('Agent','standard')");
                          Navigator.pop(context);
                          ScaffoldMessenger.of(context).showSnackBar(
                            SnackBar(
