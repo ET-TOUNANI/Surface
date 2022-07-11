@@ -21,7 +21,7 @@ class Sqldb {
     String path = join(databasepath, "thales.db");
 
     Database? mydb = await openDatabase(path,
-        version: 4, onCreate: _oncreate, onUpgrade: __onUpgade);
+        version: 5, onCreate: _oncreate, onUpgrade: __onUpgade);
 
     return mydb;
   }
@@ -109,16 +109,10 @@ class Sqldb {
         "INSERT INTO lieu (adresse,etage,champ1,code_bare) VALUES('Lieu standard',0,'','0000')");
     await db.rawInsert(
         "INSERT INTO agent (nom,prenom) VALUES('Agent','standard')");
-    int res3=await db.rawInsert(
-        "INSERT INTO famille (libelle) VALUES('pc')");
-    int res2=await db.rawInsert(
-        "INSERT INTO immo "
-            "(code_bare,ancien_code_bare,description,is_exporte,is_importer,id_famille,id_lieu)"
-            " VALUES('746775036744','746775036744','abc derf gij nijsq laq az d f g h j ky t r e d  v',1,1,$res3,$res1)");
     // ==================== For one Table
     // await db.execute(
     //     'CREATE TABLE "notes" ("id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"note"	TEXT NOT NULL)');
-    print("INSERT TABLE SUCCESS  | $response | $res3 | $res1 | $res2");
+    print("INSERT TABLE SUCCESS  | $response | $res1 ");
   }
   // read data from db (we write just the name of the table)
   readData(String table) async {
@@ -162,7 +156,6 @@ class Sqldb {
 // insert data by writing all the query ( insert into .. values ...)
   rawInsertData(String sql) async {
     Database? mydb = await db;
-
     int response = await mydb!.rawInsert(sql);
 
     return response;
