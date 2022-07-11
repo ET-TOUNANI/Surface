@@ -107,7 +107,7 @@ class _ScanImmoState extends State<ScanImmo> {
 
   getCard(map) {
     String description = "";
-    if (map['description'] != "" &&map['description'] != null) {
+    if (map['description'] != "" && map['description'] != null) {
       description =
           formatText(map['description']); //formater le text pour la description
     }
@@ -456,11 +456,11 @@ class _ScanImmoState extends State<ScanImmo> {
                             //insert the immo to db
                             String sql = '''INSERT INTO immo 
                                 (code_bare,ancien_code_bare,description,is_exporte,is_importer,etat,id_famille,id_lieu)
-                                 VALUES($barcodeScanRes,$barcodeScanRes${(descriptionController.text != "") ? ",${descriptionController.text}," : ",pas de description,"}0,0${(etatController.text != "") ? ",${etatController.text}," : ",Bonne qualité,"}$idFamille,${widget.idLieu})''';
+                                 VALUES('$barcodeScanRes','$barcodeScanRes'${(descriptionController.text != "") ? ",'${descriptionController.text}'," : ",'pas de description',"}0,0${(etatController.text != "") ? ",'${etatController.text}'," : ",'Bonne qualité',"}$idFamille,${widget.idLieu})''';
                             int idImmo = await db.rawInsertData(sql);
                             String sql2 = '''INSERT INTO scan 
                                 (Quantity,time,date,id_agent,id_immo)
-                                 VALUES(1,"time","date",${widget.idAgent},$idImmo)''';
+                                 VALUES(1,'time','date',${widget.idAgent},$idImmo)''';
                             await db.rawInsertData(sql2);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
