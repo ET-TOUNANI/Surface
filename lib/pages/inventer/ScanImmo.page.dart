@@ -463,7 +463,7 @@ class _ScanImmoState extends State<ScanImmo> {
                                  VALUES(1,'time','date',${widget.idAgent},$idImmo)''';
                             await db.rawInsertData(sql2);
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
                                   content: Text(
                                 'L\'immo est bien ajouter',
                                 style: TextStyle(color: Colors.green),
@@ -475,7 +475,7 @@ class _ScanImmoState extends State<ScanImmo> {
                             });
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
                                   content: Text(
                                 'Le formulaire n\'est pas valide',
                                 style: TextStyle(color: Colors.red),
