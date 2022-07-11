@@ -4,12 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:exemple1/configs/GetButtonNavigatBar.config.dart';
 import 'dart:async';
 import 'package:exemple1/db/thales.dart';
-
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class ScanImmo extends StatefulWidget {
-  const ScanImmo({super.key, required this.storage});
+  const ScanImmo(
+      {super.key,
+      required this.storage,
+      required this.idAgent,
+      required this.idLieu});
 
+  final int idAgent;
+  final int idLieu;
   final String storage;
 
   @override
@@ -19,16 +24,66 @@ class ScanImmo extends StatefulWidget {
 class _ScanImmoState extends State<ScanImmo> {
   Sqldb db = Sqldb();
   var item = [];
+  String barcodeScanRes = "";
   int current = 0;
   List<Widget> res = [];
   final formKey = GlobalKey<FormState>();
   String famille = "";
   TextEditingController etatController = new TextEditingController();
   TextEditingController descriptionController = new TextEditingController();
+  String famChois = " ";
+  List<DropdownMenuItem<String>> familys = [];
 
   @override
   void initState() {
     item = widget.storage.split(";");
+    // create a list of dropdownItems coming in the db
+    db.rawReadData("SELECT * FROM famille").then((listMap) {
+      listMap.map((map) {
+        return getDropDownWidget(map);
+      }).forEach((dropDownItem) {
+        familys.add(dropDownItem);
+      });
+      familys.add(DropdownMenuItem<String>(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
+                " ",
+              ),
+              Divider(
+                color: Colors.green,
+                indent: 10,
+                endIndent: 10,
+              )
+            ],
+          ),
+        ),
+        value: " ",
+      ));
+      setState(() {});
+    });
+  }
+
+  //dropDownItem modal
+  DropdownMenuItem<String> getDropDownWidget(Map<String, dynamic> map) {
+    return DropdownMenuItem<String>(
+      value: "${map['id']}- ${map['libelle']}",
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text(
+              "${map['id']}- ${map['libelle']}",
+            ),
+            Divider(
+              color: Colors.green,
+              indent: 10,
+              endIndent: 10,
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   formatText(String resS) {
@@ -51,8 +106,11 @@ class _ScanImmoState extends State<ScanImmo> {
   }
 
   getCard(map) {
-    String description =
-        formatText(map['description']); //formater le text pour la description
+    String description = "";
+    if (map['description'] != "" &&map['description'] != null) {
+      description =
+          formatText(map['description']); //formater le text pour la description
+    }
     return Center(
       /* Card Widget */
       child: Card(
@@ -200,7 +258,8 @@ class _ScanImmoState extends State<ScanImmo> {
                                     avatar: Icon(Icons.place),
                                     elevation: 20,
                                     onPressed: () {
-                                      UpdateLieu(context, item[0]);
+                                      UpdateLieu(
+                                          context, item[0], widget.idAgent);
                                     },
                                   )
                                 ],
@@ -260,12 +319,67 @@ class _ScanImmoState extends State<ScanImmo> {
                   child: Column(
                     children: [
                       const SizedBox(height: 16),
+                      Text(
+                        "Ajouter un immo",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 30),
+                      DropdownButtonFormField<String>(
+                        value: famChois,
+                        elevation: 14,
+                        icon: const Icon(Icons.arrow_drop_down),
+                        isDense: true,
+                        decoration: InputDecoration(
+                          labelText: 'Famille *',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: Colors.green),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                                const BorderSide(color: Color(0xff5F59E1)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                                const BorderSide(color: Color(0xff5F59E1)),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                          labelStyle: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.green,
+                          ),
+                        ),
+                        style:
+                            TextStyle(color: Colors.deepOrange, fontSize: 20),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty || value == " ") {
+                            return 'Champ vide';
+                          }
+                        },
+                        onChanged: (String? newValue) {
+                          if (newValue != null && newValue != " ") {
+                            setState(() {
+                              famChois = newValue;
+                            });
+                          }
+                        },
+                        items: familys,
+                      ),
+                      const SizedBox(height: 16),
                       TextFormField(
                         controller: etatController,
                         //  controller: controller,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         maxLines: null,
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           labelText: 'Etat',
                           border: OutlineInputBorder(
@@ -301,7 +415,7 @@ class _ScanImmoState extends State<ScanImmo> {
                         //  controller: controller,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         maxLines: null,
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           labelText: 'Description',
                           border: OutlineInputBorder(
@@ -333,41 +447,41 @@ class _ScanImmoState extends State<ScanImmo> {
                         style: ElevatedButton.styleFrom(
                             primary: Color(0xff5F59E1)),
                         child: const Text('Ajouter'),
-                        onPressed: () {
-                          /*var formValid =
-                              formKey.currentState?.validate() ??
-                                  false;
-                          var message =
-                              'Le formulaire n\'est pas valide';
+                        onPressed: () async {
+                          var formValid =
+                              formKey.currentState?.validate() ?? false;
                           if (formValid) {
-                            int response = await db.rawInsertData(
-                                "INSERT INTO lieu (adresse,etage,code_bare) VALUES('${adresse.text}',${(etage.text != '')?etage.text:0},'${champ1.text}')");
-
-                            (response != 0)
-                                ? message =
-                            'le lieu est bien ajouter $response'
-                                : message =
-                            'Le formulaire n\'est pas valide';
+                            var tab = famChois.split("- ");
+                            int idFamille = int.parse(tab[0]);
+                            //insert the immo to db
+                            String sql = '''INSERT INTO immo 
+                                (code_bare,ancien_code_bare,description,is_exporte,is_importer,etat,id_famille,id_lieu)
+                                 VALUES($barcodeScanRes,$barcodeScanRes${(descriptionController.text != "") ? ",${descriptionController.text}," : ",pas de description,"}0,0${(etatController.text != "") ? ",${etatController.text}," : ",Bonne qualité,"}$idFamille,${widget.idLieu})''';
+                            int idImmo = await db.rawInsertData(sql);
+                            String sql2 = '''INSERT INTO scan 
+                                (Quantity,time,date,id_agent,id_immo)
+                                 VALUES(1,"time","date",${widget.idAgent},$idImmo)''';
+                            await db.rawInsertData(sql2);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text(
+                                'L\'immo est bien ajouter',
+                                style: TextStyle(color: Colors.green),
+                              )),
+                            );
+                            //go back to scan more immo
+                            setState(() {
+                              current = 0;
+                            });
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text(
+                                'Le formulaire n\'est pas valide',
+                                style: TextStyle(color: Colors.red),
+                              )),
+                            );
                           }
-
-                          Navigator.pop(context);
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(
-                            SnackBar(
-                              content: (message ==
-                                  'Le formulaire n\'est pas valide')
-                                  ? Text(
-                                message,
-                                style: TextStyle(
-                                    color: Colors.red),
-                              )
-                                  : Text(
-                                message,
-                                style: TextStyle(
-                                    color: Colors.green),
-                              ),
-                            ),
-                          );*/
                         },
                       )
                     ],
@@ -381,7 +495,7 @@ class _ScanImmoState extends State<ScanImmo> {
 
 //scan the barre code
   Future<void> scanMe() async {
-    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+    barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
         "#2A79CF", "cancel", true, ScanMode.BARCODE); // scan the bare code
     if (barcodeScanRes != "" && barcodeScanRes != "-1") {
       String sql =
@@ -465,7 +579,7 @@ UpdateAgent(BuildContext context) {
 }
 
 // show the lieu ship
-UpdateLieu(BuildContext context, String item) {
+UpdateLieu(BuildContext context, String item, int id) {
   return showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
@@ -498,6 +612,7 @@ UpdateLieu(BuildContext context, String item) {
                           MaterialPageRoute(
                               builder: (context) => ChooseLieu(
                                     storage: item,
+                                    idAgent: id,
                                   )));
                     },
                   ),
