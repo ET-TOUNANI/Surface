@@ -11,10 +11,10 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 
 class ChooseLieu extends StatefulWidget {
-  const ChooseLieu({super.key, required this.storage});
+  const ChooseLieu({super.key, required this.storage,required this.idAgent});
 
   final String storage;
-
+  final int idAgent;
   @override
   State<ChooseLieu> createState() => _FormsPageState();
 }
@@ -23,7 +23,7 @@ class _FormsPageState extends State<ChooseLieu> {
   final formKey = GlobalKey<FormState>();
   final controller = TextEditingController();
   Sqldb db = Sqldb();
-  String category = "Lieu standard";
+  String lieuChois = "1- Lieu standard";
   List<DropdownMenuItem<String>> lieux = [];
 
   @override
@@ -47,7 +47,7 @@ class _FormsPageState extends State<ChooseLieu> {
         child: Column(
           children: [
             Text(
-              "${map['adresse']} ${(map['etage'] == 0) ? '' : '\nétage : ${map['etage']}'}",
+              "${map['id']}- ${map['adresse']} ${(map['etage'] == 0) ? '' : '\nétage : ${map['etage']}'}",
             ),
             Divider(
               color: Colors.green,
@@ -57,7 +57,7 @@ class _FormsPageState extends State<ChooseLieu> {
           ],
         ),
       ),
-      value: map['adresse'],
+      value: "${map['id']}- ${map['adresse']}",
     );
   }
 
@@ -139,7 +139,7 @@ class _FormsPageState extends State<ChooseLieu> {
                                       decoration:
                                           BoxDecoration(color: Colors.white70),
                                       child: DropdownButtonFormField<String>(
-                                        value: category,
+                                        value: lieuChois,
                                         style: TextStyle(
                                             color: Colors.black, fontSize: 20),
                                         icon: Icon(
@@ -149,7 +149,7 @@ class _FormsPageState extends State<ChooseLieu> {
                                         onChanged: (String? newValue) {
                                           if (newValue != null) {
                                             setState(() {
-                                              category = newValue;
+                                              lieuChois = newValue;
                                             });
                                           }
                                         },
@@ -235,8 +235,12 @@ class _FormsPageState extends State<ChooseLieu> {
               avatar: Icon(Icons.next_plan),
               elevation: 20,
               onPressed: () {
-                String value ="${widget.storage};$category";
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>ScanImmo(storage: value,)));
+                var tab = lieuChois.split("- ");
+                int id=int.parse(tab[0]);
+                String place = tab[1];
+                String value ="${widget.storage};$place";
+
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ScanImmo(storage: value,idAgent: widget.idAgent,idLieu: id,)));
               },
             )
           ],
@@ -250,22 +254,24 @@ class _FormsPageState extends State<ChooseLieu> {
     String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
         "#2A79CF", "cancel", true, ScanMode.BARCODE); // scan the bare code
     if (barcodeScanRes != "" && barcodeScanRes != "-1") {
-      int res = await db.isExist(
-          "SELECT * FROM lieu where code_bare='$barcodeScanRes' "); // see if the lieu exist in the db
-      if (res != -1) {
-        // if exist
-        String value ="${widget.storage};$res";
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>ScanImmo(storage: value,)));
-      } else {
+
+      db.rawReadData("SELECT * FROM lieu where code_bare='$barcodeScanRes'").then((listMap) {
+        if(listMap.isNotEmpty){
+          String lieuAdresse = listMap[0]['adresse'];
+          // if exist
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>ScanImmo(storage: "${widget.storage};$lieuAdresse",idAgent: widget.idAgent,idLieu: listMap[0]['id'],)));
+        }
+        else {
         // if not exist
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(
-            "le lieu n'existe pas",
-            style: TextStyle(color: Colors.red),
-          )),
+        SnackBar(
+        content: Text(
+        "le lieu n'existe pas",
+        style: TextStyle(color: Colors.red),
+        )),
         );
-      }
+        }
+      });
     }
   }
 }
