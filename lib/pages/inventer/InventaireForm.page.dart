@@ -17,7 +17,7 @@ class _FormsPageState extends State<InventaireForm> {
   final agentController=TextEditingController();
 
   Sqldb db = Sqldb();
-  String category = "Agent standard";
+  String agentChois = "1- Agent standard";
   List<DropdownMenuItem<String>> agens = [];
 
   @override
@@ -30,6 +30,7 @@ class _FormsPageState extends State<InventaireForm> {
       }).forEach((dropDownItem) {
         agens.add(dropDownItem);
       });
+
       setState(() {
         agens.add(DropdownMenuItem<String>(
           child: SingleChildScrollView(
@@ -55,12 +56,12 @@ class _FormsPageState extends State<InventaireForm> {
   //dropDownItem modal
   DropdownMenuItem<String> getDropDownWidget(Map<String, dynamic> map) {
     return DropdownMenuItem<String>(
-      value: "${map['nom']} ${map['prenom']}",
+      value: "${map['id']}- ${map['nom']} ${map['prenom']}",
       child: SingleChildScrollView(
         child: Column(
           children: [
             Text(
-              "${map['nom']} ${map['prenom']}",
+              "${map['id']}- ${map['nom']} ${map['prenom']}",
             ),
             const Divider(
               color: Colors.green,
@@ -107,7 +108,7 @@ class _FormsPageState extends State<InventaireForm> {
             ),
             Center(
               child:
-                  (category != "Autre")?Column(
+                  (agentChois != "Autre")?Column(
                     children: [
                       SizedBox(
                         height: 190,
@@ -130,7 +131,7 @@ class _FormsPageState extends State<InventaireForm> {
                                         decoration:
                                             BoxDecoration(color: Colors.white70),
                                         child: DropdownButtonFormField<String>(
-                                          value: category,
+                                          value: agentChois,
                                           style: TextStyle(
                                               color: Colors.black, fontSize: 20),
                                           icon: Icon(
@@ -140,7 +141,7 @@ class _FormsPageState extends State<InventaireForm> {
                                           onChanged: (String? newValue) {
                                             if (newValue != null) {
                                               setState(() {
-                                                category = newValue;
+                                                agentChois = newValue;
                                               });
                                             }
                                           },
@@ -178,7 +179,10 @@ class _FormsPageState extends State<InventaireForm> {
                         avatar: Icon(Icons.next_plan),
                         elevation: 20,
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseLieu(storage: category,)));
+                          var tab = agentChois.split("- ");
+                          int id=int.parse(tab[0]);
+                          String agent = tab[1];
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseLieu(storage: agent,idAgent: id,)));
                         },
                       )
                     ],
@@ -245,8 +249,8 @@ class _FormsPageState extends State<InventaireForm> {
                         onPressed: () async{
                           if (agentController.text.isNotEmpty) {
                             var nom=agentController.text.split(" ");
-                            await db.rawInsertData("INSERT INTO agent (nom,prenom) VALUES('${nom[0]}','${nom[1]}')");
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseLieu(storage: agentController.text,)));
+                            int rep = await db.rawInsertData("INSERT INTO agent (nom,prenom) VALUES('${nom[0]}','${nom[1]}')");
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseLieu(storage: agentController.text,idAgent: rep,)));
                           }
                           else{
                             ScaffoldMessenger.of(context).showSnackBar(
