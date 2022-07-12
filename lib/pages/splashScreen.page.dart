@@ -5,17 +5,17 @@ getSplashScreen(){
   return SplashScreen(
       seconds: 5,
       navigateAfterSeconds:Dashboard(),
-      title: new Text(
+      title: const Text(
         'Thalès Informmatique \n Copyright ©2022',
-        style: new TextStyle(
+        style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
             color: Colors.white),
       ),
-      image: new Image.asset('assets/thales.png'),
+      image:  Image.asset('assets/thales.png'),
       photoSize: 100.0,
       backgroundColor: Colors.black,
-      styleTextUnderTheLoader: new TextStyle(),
+      styleTextUnderTheLoader:  const TextStyle(),
       loaderColor: Colors.white
   );
 }
