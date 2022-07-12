@@ -28,6 +28,7 @@ class _FormsPageState extends State<ChooseLieu> {
 
   @override
   void initState() {
+    super.initState();
     // create a list of dropdownItems coming in the db
     db.rawReadData("SELECT * FROM lieu").then((listMap) {
       listMap.map((map) {
@@ -43,13 +44,14 @@ class _FormsPageState extends State<ChooseLieu> {
   //dropDownItem modal
   DropdownMenuItem<String> getDropDownWidget(Map<String, dynamic> map) {
     return DropdownMenuItem<String>(
+      value: "${map['id']}- ${map['adresse']}",
       child: SingleChildScrollView(
         child: Column(
           children: [
             Text(
               "${map['id']}- ${map['adresse']} ${(map['etage'] == 0) ? '' : '\nétage : ${map['etage']}'}",
-            ),
-            Divider(
+            style: const TextStyle(fontSize: 16),),
+            const Divider(
               color: Colors.green,
               indent: 10,
               endIndent: 10,
@@ -57,7 +59,6 @@ class _FormsPageState extends State<ChooseLieu> {
           ],
         ),
       ),
-      value: "${map['id']}- ${map['adresse']}",
     );
   }
 
@@ -70,8 +71,8 @@ class _FormsPageState extends State<ChooseLieu> {
         child: Column(
           children: [
             Column(
-              children: [
-                const SizedBox(
+              children: const [
+                SizedBox(
                   height: 60,
                 ),
                 Text(
@@ -104,7 +105,7 @@ class _FormsPageState extends State<ChooseLieu> {
                         child:  Text('Agent : ${widget.storage}'),
                       ),
                       shadowColor: Colors.black12,
-                      avatar: Icon(Icons.boy),
+                      avatar: const Icon(Icons.boy),
                       elevation: 20,
                       onPressed: () {
                         UpdateAgent(context);
@@ -120,9 +121,9 @@ class _FormsPageState extends State<ChooseLieu> {
                   children: [
                     SizedBox(
                       height: 190,
-                      width: 156,
+                      width: 159,
                       child: Material(
-                        color: Color.fromARGB(255, 33, 33, 33),
+                        color: const Color.fromARGB(255, 33, 33, 33),
                         elevation: 8,
                         borderRadius: BorderRadius.circular(10),
                         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -137,12 +138,12 @@ class _FormsPageState extends State<ChooseLieu> {
                                     padding: const EdgeInsets.all(2.0),
                                     child: Container(
                                       decoration:
-                                          BoxDecoration(color: Colors.white70),
+                                          const BoxDecoration(color: Colors.white70),
                                       child: DropdownButtonFormField<String>(
                                         value: lieuChois,
-                                        style: TextStyle(
-                                            color: Colors.black, fontSize: 20),
-                                        icon: Icon(
+                                        style: const TextStyle(
+                                            color: Colors.black, fontSize: 16),
+                                        icon: const Icon(
                                           Icons.arrow_drop_down,
                                           color: Colors.black,
                                         ),
@@ -161,13 +162,13 @@ class _FormsPageState extends State<ChooseLieu> {
                               ],
                             ),
                             Column(
-                              children: [
+                              children: const [
                                 Text(
                                   "      Veuillez \n choisir un lieu \n   pour le scan",
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 20),
                                 ),
-                                const SizedBox(
+                                SizedBox(
                                   height: 10,
                                 ),
                               ],
@@ -176,7 +177,7 @@ class _FormsPageState extends State<ChooseLieu> {
                         ),
                       ),
                     ),
-                    Text(
+                    const Text(
                       "OU",
                       style: TextStyle(
                           color: Colors.white,
@@ -186,7 +187,7 @@ class _FormsPageState extends State<ChooseLieu> {
                     SizedBox(
                       width: 148,
                       child: Material(
-                        color: Color.fromARGB(255, 33, 33, 33),
+                        color: const Color.fromARGB(255, 33, 33, 33),
                         elevation: 8,
                         borderRadius: BorderRadius.circular(10),
                         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -229,10 +230,10 @@ class _FormsPageState extends State<ChooseLieu> {
             ),
             InputChip(
               label: Semantics(
-                child: Text('Suivant'),
+                child: const Text('Suivant'),
               ),
               shadowColor: Colors.white38,
-              avatar: Icon(Icons.next_plan),
+              avatar: const Icon(Icons.next_plan),
               elevation: 20,
               onPressed: () {
                 var tab = lieuChois.split("- ");
@@ -264,7 +265,7 @@ class _FormsPageState extends State<ChooseLieu> {
         else {
         // if not exist
         ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
         content: Text(
         "le lieu n'existe pas",
         style: TextStyle(color: Colors.red),
@@ -283,14 +284,14 @@ UpdateAgent(BuildContext context) {
     builder: (BuildContext context) {
       return Padding(
         padding: MediaQuery.of(context).viewInsets,
-        child: Container(
+        child: SizedBox(
           height: 150,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               const SizedBox(height: 5),
-              Center(
+              const Center(
                 child: Text(
                   "Voullez-vous modifier l'agent ?",
                   style: TextStyle(fontSize: 20, color: Colors.black),
@@ -302,7 +303,7 @@ UpdateAgent(BuildContext context) {
                 children: [
                   ElevatedButton(
                     style:
-                    ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
+                    ElevatedButton.styleFrom(primary: const Color(0xff5F59E1)),
                     child: const Text('Oui'),
                     onPressed: ()  {
                       Navigator.pop(context);
@@ -311,7 +312,7 @@ UpdateAgent(BuildContext context) {
                   ),
                   ElevatedButton(
                     style:
-                    ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
+                    ElevatedButton.styleFrom(primary: const Color(0xff5F59E1)),
                     child: const Text('Cancel'),
                     onPressed: () => Navigator.pop(context),
                   )
