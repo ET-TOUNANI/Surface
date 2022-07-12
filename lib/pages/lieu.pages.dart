@@ -303,7 +303,9 @@ class _GetLieuState extends State<GetLieu> {
                                             'Le formulaire n\'est pas valide';
                                         if (formValid) {
                                           int response = await db.rawInsertData(
-                                              "INSERT INTO lieu (adresse,etage,code_bare) VALUES('${adresse.text}',${(etage.text != '')?etage.text:0},'${champ1.text}')");
+                                              'INSERT INTO lieu (adresse,etage,code_bare) VALUES("${adresse.text}",${(etage.text != '' && !int.parse(etage.text).isNaN)?int.parse(etage.text):0},"${champ1.text}")');
+                                          adresse.text="";
+                                          champ1.text="";
                                           setState(() {
                                             _readData();
                                             ++counter;
