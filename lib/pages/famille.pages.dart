@@ -15,11 +15,11 @@ class GetFamille extends StatefulWidget {
 class _GetFamilleState extends State<GetFamille> {
   Sqldb db = Sqldb();
   final formKey = GlobalKey<FormState>();
-  final formKey2 = GlobalKey<FormState>();
+  final formKey2 = GlobalKey<FormState>(); TextEditingController search = new TextEditingController();
   int counter = 0;
   String sql = 'SELECT * FROM famille';
   TextEditingController famile = new TextEditingController();
-  TextEditingController search = new TextEditingController();
+
 
   // search famille by libelle
   Search(searchValue) {
@@ -215,7 +215,8 @@ class _GetFamilleState extends State<GetFamille> {
                                             'Le formulaire n\'est pas valide';
                                         if (formValid) {
                                           int response = await db.rawInsertData(
-                                              "INSERT INTO famille (libelle) VALUES('${famile.text}')");
+                                              'INSERT INTO famille (libelle) VALUES("${famile.text}")');
+                                          famile.text="";
                                           setState(() {
                                             _readData();
                                             ++counter;
