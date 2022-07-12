@@ -156,6 +156,7 @@ class Sqldb {
 // insert data by writing all the query ( insert into .. values ...)
   rawInsertData(String sql) async {
     Database? mydb = await db;
+
     int response = await mydb!.rawInsert(sql);
 
     return response;
