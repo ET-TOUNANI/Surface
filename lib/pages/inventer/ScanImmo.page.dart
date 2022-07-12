@@ -1,4 +1,6 @@
 import 'package:exemple1/configs/AppBar.config.dart';
+import 'package:exemple1/pages/inventer/ResultCard.page.dart';
+import 'package:exemple1/pages/inventer/addImmo.dart';
 import 'package:exemple1/pages/inventer/chooseLieu.dart';
 import 'package:flutter/material.dart';
 import 'package:exemple1/configs/GetButtonNavigatBar.config.dart';
@@ -25,65 +27,12 @@ class _ScanImmoState extends State<ScanImmo> {
   Sqldb db = Sqldb();
   var item = [];
   String barcodeScanRes = "";
-  int current = 0;
   List<Widget> res = [];
-  final formKey = GlobalKey<FormState>();
-  String famille = "";
-  TextEditingController etatController = new TextEditingController();
-  TextEditingController descriptionController = new TextEditingController();
-  String famChois = " ";
-  List<DropdownMenuItem<String>> familys = [];
 
   @override
   void initState() {
     item = widget.storage.split(";");
-    // create a list of dropdownItems coming in the db
-    db.rawReadData("SELECT * FROM famille").then((listMap) {
-      listMap.map((map) {
-        return getDropDownWidget(map);
-      }).forEach((dropDownItem) {
-        familys.add(dropDownItem);
-      });
-      familys.add(DropdownMenuItem<String>(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Text(
-                " ",
-              ),
-              Divider(
-                color: Colors.green,
-                indent: 10,
-                endIndent: 10,
-              )
-            ],
-          ),
-        ),
-        value: " ",
-      ));
-      setState(() {});
-    });
-  }
-
-  //dropDownItem modal
-  DropdownMenuItem<String> getDropDownWidget(Map<String, dynamic> map) {
-    return DropdownMenuItem<String>(
-      value: "${map['id']}- ${map['libelle']}",
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Text(
-              "${map['id']}- ${map['libelle']}",
-            ),
-            Divider(
-              color: Colors.green,
-              indent: 10,
-              endIndent: 10,
-            )
-          ],
-        ),
-      ),
-    );
+    setState(() {});
   }
 
   formatText(String resS) {
@@ -116,14 +65,25 @@ class _ScanImmoState extends State<ScanImmo> {
       child: Card(
         elevation: 50,
         shadowColor: Colors.white38,
-        color: Color.fromARGB(255, 33, 33, 33),
+        color: const Color.fromARGB(255, 33, 33, 33),
         child: SizedBox(
           width: 300,
-          height: 500,
+          height: 580,
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
+                Text(
+                  '${map['code_bare']}',
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.green[900],
+                    fontWeight: FontWeight.w500,
+                  ), //Textstyle
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
                 CircleAvatar(
                   backgroundColor: Colors.green[500],
                   radius: 108,
@@ -137,42 +97,78 @@ class _ScanImmoState extends State<ScanImmo> {
                   height: 10,
                 ), //SizedBox
                 Text(
-                  '${map['libelle']}',
+                  '${map['etat']}',
                   style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 20,
                     color: Colors.green[900],
                     fontWeight: FontWeight.w500,
                   ), //Textstyle
                 ),
                 Text(
-                  '${map['etat']}',
+                  "famille : ",
                   style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 15,
                     color: Colors.green[900],
                     fontWeight: FontWeight.w500,
-                  ), //Textstyle
-                ), //Text
+                  ),
+                ),
+
+                Text(
+                  '${map['libelle']}',
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.green,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
                 const SizedBox(
                   height: 10,
-                ), //SizedBox
+                ),
+                Text(
+                  "description : ",
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.green[900],
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
                 Flexible(
                   child: Text(
                     description,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 15,
                       color: Colors.green,
-                    ), //Textstyle
+                    ),
                   ),
-                ), //Text
+                ),
                 const SizedBox(
-                  height: 40,
-                ), //SizedBox
+                  height: 30,
+                ),
+                Text(
+                  "scanner par ${item[0]} le 22/07/2022 à 14:23",
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.green,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Center(
+                  child: Text(
+                    "dans le lieu qui se trouve dans l'adresse : ${item[1]} ",
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.green,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
                 SizedBox(
                   width: 120,
                   child: ElevatedButton(
-                    onPressed: () => setState(() {
-                      current = 0;
-                    }),
+                    onPressed: () => Navigator.pop(context),
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all(Colors.green)),
@@ -186,12 +182,12 @@ class _ScanImmoState extends State<ScanImmo> {
                       ),
                     ),
                   ),
-                ) //SizedBox
+                )
               ],
-            ), //Column
-          ), //Padding
-        ), //SizedBox
-      ), //Card
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -201,293 +197,108 @@ class _ScanImmoState extends State<ScanImmo> {
       backgroundColor: Colors.black,
       appBar: GetAppBare(),
       body: SingleChildScrollView(
-        child: (current != 2)
-            ? Container(
-                child: (current == 0)
-                    ? Column(
+        child: Container(
+            child: Column(
+          children: [
+            Center(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 60,
+                  ),
+                  Text(
+                    "3/3",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                  Text(
+                    "Etape 3",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w200,
+                        fontSize: 18),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 100,
+            ),
+            Center(
+                child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    InputChip(
+                      label: Semantics(
+                        child: Text('Agent : ${item[0]}'),
+                      ),
+                      shadowColor: Colors.black12,
+                      avatar: Icon(Icons.boy),
+                      elevation: 20,
+                      onPressed: () {
+                        UpdateAgent(context);
+                      },
+                    ),
+                    InputChip(
+                      label: Semantics(
+                        child: Text('Lieu : ${item[1]}'),
+                      ),
+                      shadowColor: Colors.black12,
+                      avatar: Icon(Icons.place),
+                      elevation: 20,
+                      onPressed: () {
+                        UpdateLieu(context, item[0], widget.idAgent);
+                      },
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 60,
+                ),
+                SizedBox(
+                  width: 300,
+                  child: Material(
+                    color: Color.fromARGB(255, 33, 33, 33),
+                    elevation: 8,
+                    borderRadius: BorderRadius.circular(10),
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    child: InkWell(
+                      splashColor: Colors.black26,
+                      onTap: () {
+                        scanMe();
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Center(
-                            child: Column(
-                              children: [
-                                const SizedBox(
-                                  height: 60,
-                                ),
-                                Text(
-                                  "3/3",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                                Text(
-                                  "Etape 3",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w200,
-                                      fontSize: 18),
-                                ),
-                              ],
-                            ),
+                          Ink.image(
+                            image: const AssetImage('assets/scanner.png'),
+                            height: 120,
+                            width: 300,
+                            fit: BoxFit.cover,
                           ),
                           const SizedBox(
-                            height: 100,
+                            height: 15,
                           ),
-                          Center(
-                              child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  InputChip(
-                                    label: Semantics(
-                                      child: Text('Agent : ${item[0]}'),
-                                    ),
-                                    shadowColor: Colors.black12,
-                                    avatar: Icon(Icons.boy),
-                                    elevation: 20,
-                                    onPressed: () {
-                                      UpdateAgent(context);
-                                    },
-                                  ),
-                                  InputChip(
-                                    label: Semantics(
-                                      child: Text('Lieu : ${item[1]}'),
-                                    ),
-                                    shadowColor: Colors.black12,
-                                    avatar: Icon(Icons.place),
-                                    elevation: 20,
-                                    onPressed: () {
-                                      UpdateLieu(
-                                          context, item[0], widget.idAgent);
-                                    },
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 60,
-                              ),
-                              SizedBox(
-                                width: 300,
-                                child: Material(
-                                  color: Color.fromARGB(255, 33, 33, 33),
-                                  elevation: 8,
-                                  borderRadius: BorderRadius.circular(10),
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  child: InkWell(
-                                    splashColor: Colors.black26,
-                                    onTap: () {
-                                      scanMe();
-                                    },
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Ink.image(
-                                          image: const AssetImage(
-                                              'assets/scanner.png'),
-                                          height: 120,
-                                          width: 300,
-                                          fit: BoxFit.cover,
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        const Text(
-                                          "Scanner le code-barre de l'immo",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.white),
-                                        ),
-                                        const SizedBox(
-                                          height: 14,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ))
+                          const Text(
+                            "Scanner le code-barre de l'immo",
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                          const SizedBox(
+                            height: 14,
+                          )
                         ],
-                      )
-                    : res.first,
-              )
-            : Form(
-                key: formKey,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 16),
-                      Text(
-                        "Ajouter un immo",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
                       ),
-                      const SizedBox(height: 30),
-                      DropdownButtonFormField<String>(
-                        value: famChois,
-                        elevation: 14,
-                        icon: const Icon(Icons.arrow_drop_down),
-                        isDense: true,
-                        decoration: InputDecoration(
-                          labelText: 'Famille *',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: const BorderSide(color: Colors.green),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide:
-                                const BorderSide(color: Color(0xff5F59E1)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide:
-                                const BorderSide(color: Color(0xff5F59E1)),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: const BorderSide(color: Colors.red),
-                          ),
-                          labelStyle: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.green,
-                          ),
-                        ),
-                        style:
-                            TextStyle(color: Colors.deepOrange, fontSize: 20),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty || value == " ") {
-                            return 'Champ vide';
-                          }
-                        },
-                        onChanged: (String? newValue) {
-                          if (newValue != null && newValue != " ") {
-                            setState(() {
-                              famChois = newValue;
-                            });
-                          }
-                        },
-                        items: familys,
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: etatController,
-                        //  controller: controller,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        maxLines: null,
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          labelText: 'Etat',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: const BorderSide(color: Colors.green),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide:
-                                const BorderSide(color: Color(0xff5F59E1)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide:
-                                const BorderSide(color: Color(0xff5F59E1)),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: const BorderSide(color: Colors.red),
-                          ),
-                          labelStyle: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.green,
-                          ),
-                          isDense: true,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      TextFormField(
-                        controller: descriptionController,
-                        //  controller: controller,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        maxLines: null,
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          labelText: 'Description',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: const BorderSide(color: Colors.green),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide:
-                                const BorderSide(color: Color(0xff5F59E1)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide:
-                                const BorderSide(color: Color(0xff5F59E1)),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: const BorderSide(color: Colors.red),
-                          ),
-                          labelStyle: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.green,
-                          ),
-                          isDense: true,
-                        ),
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Color(0xff5F59E1)),
-                        child: const Text('Ajouter'),
-                        onPressed: () async {
-                          var formValid =
-                              formKey.currentState?.validate() ?? false;
-                          if (formValid) {
-                            var tab = famChois.split("- ");
-                            int idFamille = int.parse(tab[0]);
-                            //insert the immo to db
-                            String sql = '''INSERT INTO immo 
-                                (code_bare,ancien_code_bare,description,is_exporte,is_importer,etat,id_famille,id_lieu)
-                                 VALUES('$barcodeScanRes','$barcodeScanRes'${(descriptionController.text != "") ? ",'${descriptionController.text}'," : ",'pas de description',"}0,0${(etatController.text != "") ? ",'${etatController.text}'," : ",'Bonne qualité',"}$idFamille,${widget.idLieu})''';
-                            int idImmo = await db.rawInsertData(sql);
-                            String sql2 = '''INSERT INTO scan 
-                                (Quantity,time,date,id_agent,id_immo)
-                                 VALUES(1,'time','date',${widget.idAgent},$idImmo)''';
-                            await db.rawInsertData(sql2);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text(
-                                'L\'immo est bien ajouter',
-                                style: TextStyle(color: Colors.green),
-                              )),
-                            );
-                            //go back to scan more immo
-                            setState(() {
-                              current = 0;
-                            });
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text(
-                                'Le formulaire n\'est pas valide',
-                                style: TextStyle(color: Colors.red),
-                              )),
-                            );
-                          }
-                        },
-                      )
-                    ],
+                    ),
                   ),
-                ),
-              ),
+                )
+              ],
+            ))
+          ],
+        )),
       ),
       bottomNavigationBar: GetButtonNavigatBar(context),
     );
@@ -499,7 +310,7 @@ class _ScanImmoState extends State<ScanImmo> {
         "#2A79CF", "cancel", true, ScanMode.BARCODE); // scan the bare code
     if (barcodeScanRes != "" && barcodeScanRes != "-1") {
       String sql =
-          "SELECT etat,libelle,description FROM immo,famille where code_bare='$barcodeScanRes' and famille.id==immo.id_famille";
+          "SELECT  code_bare,etat,libelle,description FROM immo,famille where code_bare='$barcodeScanRes' and famille.id==immo.id_famille";
 
       db.rawReadData(sql).then((listMap) {
         // see if the immo exist in the db
@@ -509,21 +320,26 @@ class _ScanImmoState extends State<ScanImmo> {
           }).forEach((item) {
             res.add(item);
           });
-          setState(() {
-            current = 1;
-          });
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ResultCard(resWidget: res.first)));
         } else {
           // if not exist
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
                 content: Text(
               "l'immo n'existe pas",
               style: TextStyle(color: Colors.red),
             )),
           );
-          setState(() {
-            current = 2;
-          });
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AddImmo(
+                      idAgent: widget.idAgent,
+                      idLieu: widget.idLieu,
+                      barcodeScanRes: barcodeScanRes)));
         }
       });
     }
