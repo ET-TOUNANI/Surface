@@ -145,7 +145,7 @@ class _ScanImmoState extends State<ScanImmo> {
                   height: 30,
                 ),
                 Text(
-                  "scanner par ${item[0]} le 22/07/2022 à 14:23",
+                  "scanner par ${item[0]} le ${map['date']} à ${map['time']}",
                   style: TextStyle(
                     fontSize: 10,
                     color: Colors.green,
@@ -310,7 +310,7 @@ class _ScanImmoState extends State<ScanImmo> {
         "#2A79CF", "cancel", true, ScanMode.BARCODE); // scan the bare code
     if (barcodeScanRes != "" && barcodeScanRes != "-1") {
       String sql =
-          "SELECT  code_bare,etat,libelle,description FROM immo,famille where code_bare='$barcodeScanRes' and famille.id==immo.id_famille";
+          "SELECT  code_bare,etat,libelle,description,date,time FROM immo,famille,scan where code_bare='$barcodeScanRes' and famille.id==immo.id_famille and scan.id_immo==immo.id";
 
       db.rawReadData(sql).then((listMap) {
         // see if the immo exist in the db
