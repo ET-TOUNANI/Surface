@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
    <application
+       android:requestLegacyExternalStorage="true"
         android:label="exemple1"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
