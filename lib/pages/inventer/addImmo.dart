@@ -219,11 +219,13 @@ class _ScanImmoState extends State<AddImmo> {
                       int idFamille = int.parse(tab[0]);
                       //insert the immo to db
                       String sql =
-                          "INSERT INTO immo (code_bare,ancien_code_bare,description,is_exporte,is_importer,etat,id_famille,id_lieu) VALUES('${widget.barcodeScanRes}','${widget.barcodeScanRes}',${(descriptionController.text != "") ? '"${descriptionController.text}"' : "'pas de description'"},1,1,${(etatController.text != "") ? '"${etatController.text}"' : "'Bonne qualité'"},$idFamille,${widget.idLieu})";
-
+                          "INSERT INTO immo (code_bare,ancien_code_bare,description,is_exporte,is_importer,etat,id_famille,id_lieu) VALUES('${widget.barcodeScanRes}','${widget.barcodeScanRes}',${(descriptionController.text != "") ? '"${descriptionController.text}"' : "'pas de description'"},0,0,${(etatController.text != "") ? '"${etatController.text}"' : "'Bonne qualité'"},$idFamille,${widget.idLieu})";
+                      DateTime d=DateTime.now();
+                      String date="${d.day}/${d.month}/${d.year}";
+                        String time="${d.hour}:${d.minute}:${d.second}";
                       int idImmo = await db.rawInsertData(sql);
                       String sql2 =
-                          "INSERT INTO scan (Quantity,time,date,id_agent,id_immo) VALUES(1,'time','date',${widget.idAgent},$idImmo)";
+                          "INSERT INTO scan (Quantity,time,date,id_agent,id_immo) VALUES(1,'$time','$date',${widget.idAgent},$idImmo)";
 
                       await db.rawInsertData(sql2);
                       ScaffoldMessenger.of(context).showSnackBar(
