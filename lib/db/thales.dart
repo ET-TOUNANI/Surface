@@ -21,7 +21,7 @@ class Sqldb {
     String path = join(databasepath, "thales.db");
 
     Database? mydb = await openDatabase(path,
-        version: 5, onCreate: _oncreate, onUpgrade: __onUpgade);
+        version: 9, onCreate: _oncreate, onUpgrade: __onUpgade);
 
     return mydb;
   }
@@ -78,7 +78,7 @@ class Sqldb {
     CREATE TABLE  IF NOT EXISTS "immo" 
     (
     "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-    "code_bare"	TEXT NOT NULL , 
+    "code_bare"	TEXT NOT NULL UNIQUE , 
     "ancien_code_bare" TEXT  , 
     "etat" TEXT  DEFAULT 'Bonne qualité', 
     "description"  TEXT ,
