@@ -1,12 +1,11 @@
-import 'dart:developer';
-
+import 'dart:io';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:exemple1/configs/AppBar.config.dart';
 import 'package:exemple1/configs/GetButtonNavigatBar.config.dart';
 import 'package:exemple1/db/thales.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'dart:io';
+
 
 class Export extends StatefulWidget {
   Export({Key? key}) : super(key: key);
@@ -352,9 +351,10 @@ class _GetFamilleState extends State<Export> {
         String date = "${d.day}${d.month}${d.year}"; // date
         String time = "${d.hour}${d.minute}${d.second}"; //time
         String name = "$date${time}_immos"; //name of file
-        await File('/storage/emulated/0/Download/$name.xlsx')
+       // await FileSaver.instance.saveAs(name, bytes, ext, mimeType);
+         await File('./storage/emulated/0/Download/$name.xlsx')
             .writeAsBytes(List.from(await excel.encode()), flush: true)
-            .then((value) => log('saved'));
+            .then((value) => print('saved'));
       } catch (e) {
         print(e);
       }
