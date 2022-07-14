@@ -1,11 +1,12 @@
+import 'dart:developer';
+
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:exemple1/configs/AppBar.config.dart';
 import 'package:exemple1/configs/GetButtonNavigatBar.config.dart';
 import 'package:exemple1/db/thales.dart';
 import 'package:permission_handler/permission_handler.dart';
-
-import 'package:exemple1/configs/config.dart';
+import 'dart:io';
 
 class Export extends StatefulWidget {
   Export({Key? key}) : super(key: key);
@@ -24,18 +25,18 @@ class _GetFamilleState extends State<Export> {
   int nbrImmo = 0;
   int nbrFamille = 0;
   String sql =
-      "SELECT f.libelle , i.etat , i.code_bare, l.adresse , l.etage , s.date, s.time , i.is_exporte "
-      "FROM immo as i, famille as f , lieu as l , scan as s "
-      "WHERE f.id==i.id_famille and i.id_lieu==l.id and s.id_immo==i.id";
+      "SELECT f.libelle , i.etat , i.code_bare, l.adresse , l.etage , i.is_exporte "
+      "FROM immo as i, famille as f , lieu as l  "
+      "WHERE f.id==i.id_famille and i.id_lieu==l.id ";
   TextEditingController famile = new TextEditingController();
 
   // search immo by libelle
   Search(searchValue) {
     setState(() {
       sql =
-          "SELECT f.libelle , i.etat , i.code_bare, l.adresse , l.etage , s.date, s.time , i.is_exporte "
-          "FROM immo as i, famille as f , lieu as l , scan as s "
-          "WHERE f.libelle like '$searchValue%' and  f.id==i.id_famille and i.id_lieu==l.id and s.id_immo==i.id";
+          "SELECT f.libelle , i.etat , i.code_bare, l.adresse , l.etage  , i.is_exporte "
+          "FROM immo as i, famille as f , lieu as l  "
+          "WHERE f.libelle like '$searchValue%' and  f.id==i.id_famille and i.id_lieu==l.id ";
     });
   }
 
@@ -160,9 +161,9 @@ class _GetFamilleState extends State<Export> {
                 setState(() {
                   checkboxVal = newVal!;
                   sql =
-                      "SELECT f.libelle , i.etat , i.code_bare, l.adresse , l.etage , s.date, s.time , i.is_exporte "
-                      "FROM immo as i, famille as f , lieu as l , scan as s "
-                      "WHERE f.id==i.id_famille and i.id_lieu==l.id and s.id_immo==i.id   ${(newVal == false) ? ' ' : 'and i.is_exporte == 1'}";
+                      "SELECT f.libelle , i.etat , i.code_bare, l.adresse , l.etage , i.is_exporte "
+                      "FROM immo as i, famille as f , lieu as l  "
+                      "WHERE f.id==i.id_famille and i.id_lieu==l.id   ${(newVal == false) ? ' ' : 'and i.is_exporte == 1'}";
                 });
               }),
         ),
@@ -190,55 +191,62 @@ class _GetFamilleState extends State<Export> {
                   color: Colors.white,
                   onPressed: () {
                     showModalBottomSheet<void>(
-                        context: context,
-                        isScrollControlled: true,
-                        builder: (BuildContext context) {
-                          return Padding(
-                            padding: MediaQuery.of(context).viewInsets,
-                            child: Container(
-                              height: 150,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  const SizedBox(height: 5),
-                                  const Center(
-                                    child: Text(
-                                      "Voullez-vous exporter la totalité ou seulement les nouveaux immos ?",
-                                      style: TextStyle(fontSize: 20, color: Colors.black),
-                                    ),
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (BuildContext context) {
+                        return Padding(
+                          padding: MediaQuery.of(context).viewInsets,
+                          child: Container(
+                            height: 150,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                const SizedBox(height: 5),
+                                const Center(
+                                  child: Text(
+                                    "Voullez-vous exporter la totalité ou seulement les nouveaux immos ?",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.black),
                                   ),
-                                  const SizedBox(height: 5),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    children: [
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(primary: Colors.green),
-                                        child: const Text('la totalité'),
-                                        onPressed: () async {
-                                          await createExcel();
-                                        },
-                                      ),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(primary: Colors.blue),
-                                        child: const Text('les nouveaux immos'),
-                                        onPressed: () async {
-                                          await createExcel();
-                                        },
-                                      ),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(primary: Colors.grey),
-                                        child: const Text('Cancel'),
-                                        onPressed: () => Navigator.pop(context),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
+                                ),
+                                const SizedBox(height: 5),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.green),
+                                      child: const Text('la totalité'),
+                                      onPressed: () async {
+                                        await createExcel();
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.blue),
+                                      child: const Text('les nouveaux immos'),
+                                      onPressed: () async {
+                                        await createExcel();
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.grey),
+                                      child: const Text('Cancel'),
+                                      onPressed: () => Navigator.pop(context),
+                                    )
+                                  ],
+                                )
+                              ],
                             ),
-                          );
-                        },
-                      );
+                          ),
+                        );
+                      },
+                    );
                   },
                 ),
               ),
@@ -268,10 +276,6 @@ class _GetFamilleState extends State<Export> {
                                   "Code: ${snapshot.data![i]['code_bare']}",
                                   style: TextStyle(
                                       fontSize: 20, color: Colors.white)),
-                              trailing: Text(
-                                  "${snapshot.data![i]['date']} - ${snapshot.data![i]['time']}",
-                                  style: TextStyle(
-                                      fontSize: 20, color: Colors.white)),
                             ),
                             ListTile(
                               title: Text(
@@ -285,7 +289,7 @@ class _GetFamilleState extends State<Export> {
                             ListTile(
                               title: Flexible(
                                 child: Text(
-                                    "Adresse: ${snapshot.data![i]['adresse']} étage ${snapshot.data![i]['etage']} ",
+                                    "Adresse: ${snapshot.data![i]['adresse']} étage ${(snapshot.data![i]['etage'] != null) ? snapshot.data![i]['etage'] : 0} ",
                                     style: TextStyle(
                                         fontSize: 20, color: Colors.white)),
                               ),
@@ -306,12 +310,6 @@ class _GetFamilleState extends State<Export> {
 
   Future<void> createExcel() async {
     var excel = Excel.createExcel();
-    /*
-      * sheetObject.updateCell(cell, value, { CellStyle (Optional)});
-      * sheetObject created by calling - // Sheet sheetObject = excel['SheetName'];
-      * cell can be identified with Cell Address or by 2D array having row and column Index;
-      * Cell Style options are optional
-      */
 
     Sheet sheetObject = excel['Sheet1'];
 
@@ -350,7 +348,13 @@ class _GetFamilleState extends State<Export> {
     }
     if (await Permission.storage.request().isGranted) {
       try {
-        await save(excel);
+        DateTime d = DateTime.now(); //real time
+        String date = "${d.day}${d.month}${d.year}"; // date
+        String time = "${d.hour}${d.minute}${d.second}"; //time
+        String name = "$date${time}_immos"; //name of file
+        await File('/storage/emulated/0/Download/$name.xlsx')
+            .writeAsBytes(List.from(await excel.encode()), flush: true)
+            .then((value) => log('saved'));
       } catch (e) {
         print(e);
       }
