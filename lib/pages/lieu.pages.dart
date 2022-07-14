@@ -393,7 +393,7 @@ class _GetLieuState extends State<GetLieu> {
                               "Adresse : ${snapshot.data![i]['adresse']}    ",
                               style:
                                   TextStyle(fontSize: 20, color: Colors.white)),
-                          subtitle: Text("Etage : ${snapshot.data![i]['etage']}",
+                          subtitle: Text("Etage : ${(snapshot.data![i]['etage']!=null)?snapshot.data![i]['etage']:0}",
                               style:
                                   TextStyle(fontSize: 20, color: Colors.white)),
                           trailing: IconButton(
