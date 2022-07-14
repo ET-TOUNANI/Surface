@@ -4,6 +4,8 @@ import 'package:exemple1/configs/AppBar.config.dart';
 
 import 'package:exemple1/db/thales.dart';
 
+import 'package:exemple1/configs/config.dart';
+
 class Dashboard extends StatelessWidget {
    Dashboard({Key? key}) : super(key: key);
   Sqldb db = Sqldb();
@@ -39,9 +41,52 @@ class Dashboard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           _getSizedBox(context,"scan","Inventaire",1,"/inventer"),
+                          SizedBox(
+                            width: 154.0,
+                            height: 160.0,
+                            child: Material(
+                              color: const Color.fromARGB(255, 21, 21, 21),
+                              elevation: 8,
+                              borderRadius: BorderRadius.circular(10),
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              child: InkWell(
+                                splashColor: Colors.black26,
+                                onTap: () {
 
-                          _getSizedBox(
-                              context, "importer", "Importer", 2, "/importer"),
+                                  import(context,db);
+                                },
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Ink.image(
+                                      image:  const AssetImage('assets/importer.png'),
+                                      height: 80,
+                                      width: 64.0,
+                                      //fit: BoxFit.cover,
+                                    ),
+                                    const SizedBox(
+                                      height: 10.0,
+                                    ),
+                                    const Text(
+                                      "Importer",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20.0),
+                                    ),
+                                    const SizedBox(
+                                      height: 5.0,
+                                    ),
+                                    const Text(
+                                      "2",
+                                      style: TextStyle(
+                                          color: Colors.white, fontWeight: FontWeight.w800),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       Row(
