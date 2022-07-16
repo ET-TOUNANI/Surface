@@ -5,6 +5,31 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 
+
+
+
+showAlertDialog(BuildContext context,String operation){
+  AlertDialog alert=AlertDialog(
+    content: Row(
+      children: [
+        const CircularProgressIndicator(),
+        Container(margin: const EdgeInsets.only(left: 5),child:Text(operation)),
+      ],),
+  );
+  showDialog(barrierDismissible: false,
+    context:context,
+    builder:(BuildContext context){
+      return alert;
+    },
+  );
+}
+
+
+
+
+
+
+
 // export data from db to excel file
 Future<void> export(Sqldb db, int totaliteOrNot) async {
   var excel = Excel.createExcel();
