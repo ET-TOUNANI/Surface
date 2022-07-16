@@ -52,8 +52,13 @@ class Dashboard extends StatelessWidget {
                               child: InkWell(
                                 splashColor: Colors.black26,
                                 onTap: () {
+                                  try{
+                                    showAlertDialog(context,"importing");
+                                    import(context,db);
+                                  }catch(e){
+                                    print(e);
+                                  }
 
-                                  import(context,db);
                                 },
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
