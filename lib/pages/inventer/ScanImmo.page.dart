@@ -115,7 +115,7 @@ class _ScanImmoState extends State<ScanImmo> {
 
                 Text(
                   '${map['libelle']}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 30,
                     color: Colors.green,
                     fontWeight: FontWeight.w500,
@@ -202,8 +202,8 @@ class _ScanImmoState extends State<ScanImmo> {
           children: [
             Center(
               child: Column(
-                children: [
-                  const SizedBox(
+                children: const [
+                  SizedBox(
                     height: 60,
                   ),
                   Text(
