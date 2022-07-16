@@ -122,11 +122,7 @@ import(context, Sqldb db) async {
             // read by col
             // excel contain just the list of "immos"
             // add list of famille from db
-            List<Map> familles =
-                await db.rawReadData("SELECT id,libelle FROM famille");
-            // add list of lieux from db
-            List<Map> lieux =
-                await db.rawReadData("SELECT id,code_bare FROM lieu");
+
             int maxRows = excel.sheets['Sheet1']!.maxRows;
             List<dynamic> immos = [];
 
@@ -134,26 +130,14 @@ import(context, Sqldb db) async {
               excel.sheets['Sheet1']!.row(row).forEach((cell) {
                 immos.add(cell.value);
               });
+              int idFamille= await db.isExist('select id from famille where libelle="${immos[3]}"');
+              int idLieu= await db.isExist('select id from lieu where code_bare="${immos[4]}"');
 
-              int idFamille = 0;
-              for (var famille in familles) {
-                if (famille['libelle'] == '${immos[3]}') {
-                  idFamille = famille['id'];
-                }
-              }
-              int idLieu = 0;
-              for (var lieu in lieux) {
-                if (lieu['code_bare'] == '${immos[4]}') {
-                  idLieu = lieu['id'];
-                }
-              }
               // add immo to db
               await db.rawInsertData(
                   'INSERT INTO immo (code_bare,ancien_code_bare,description,is_exporte,is_importer,etat,id_famille,id_lieu) VALUES("${immos[0]}","${immos[0]}","${immos[1]}",0,1,"${immos[2]}",$idFamille,$idLieu)');
               immos.clear();
             }
-            familles.clear();
-            lieux.clear();
           } else {
             // initialisation of apk
 
