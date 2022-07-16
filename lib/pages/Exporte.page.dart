@@ -205,9 +205,15 @@ class _GetFamilleState extends State<Export> {
                                       primary: Colors.green),
                                   child: const Text('la totalité'),
                                   onPressed: () async {
-                                    await export(db,0);
-                                    await db.rawUpdateData("UPDATE immo SET is_exporte=1");
-                                    Navigator.pop(context);
+                                    try{
+                                      showAlertDialog(context,"exporting");
+                                      await export(db,0);
+                                      await db.rawUpdateData("UPDATE immo SET is_exporte=1");
+                                      Navigator.pop(context);
+                                    }catch(e){
+                                      print(e);
+                                    }
+
                                   },
                                 ),
                                 ElevatedButton(
