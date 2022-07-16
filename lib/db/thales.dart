@@ -14,6 +14,9 @@ class Sqldb {
 
       return _db;
   }
+  _onConfigure(Database db)async{
+    await db.execute("PRAGMA foreign_keys=ON");
+  }
   // create thales db
   initilDb() async {
     String databasepath = await getDatabasesPath();
@@ -21,7 +24,7 @@ class Sqldb {
     String path = join(databasepath, "thales.db");
 
     Database? mydb = await openDatabase(path,
-        version: 9, onCreate: _oncreate, onUpgrade: __onUpgade);
+        version: 9, onCreate: _oncreate, onUpgrade: __onUpgade,onConfigure: _onConfigure);
 
     return mydb;
   }
@@ -141,7 +144,9 @@ class Sqldb {
 
     List<Map> response = await mydb!.rawQuery(sql);
     if(response.isNotEmpty){
-      return response.map((e) => e['id']);
+      for (var value in response) {
+        return value['id'];
+      }
     }
     return -1;
   }
