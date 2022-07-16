@@ -23,7 +23,7 @@ class _GetFamilleState extends State<Export> {
   String sql =
       "SELECT f.libelle , i.etat , i.code_bare, l.adresse , l.etage , i.is_exporte "
       "FROM immo as i, famille as f , lieu as l  "
-      "WHERE f.id==i.id_famille and i.id_lieu==l.id ";
+      "WHERE f.id==i.id_famille and i.id_lieu==l.id limit 20 ";
   TextEditingController famile = new TextEditingController();
 
   // search immo by libelle
@@ -157,7 +157,7 @@ class _GetFamilleState extends State<Export> {
                   sql =
                       "SELECT f.libelle , i.etat , i.code_bare, l.adresse , l.etage , i.is_exporte "
                       "FROM immo as i, famille as f , lieu as l  "
-                      "WHERE f.id==i.id_famille and i.id_lieu==l.id   ${(newVal == false) ? ' ' : 'and i.is_exporte == 1'}";
+                      "WHERE f.id==i.id_famille and i.id_lieu==l.id   ${(newVal == false) ? ' ' : 'and i.is_exporte == 1'} limit 20";
                 });
               }),
         ),
