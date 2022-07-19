@@ -3,6 +3,7 @@ import 'package:exemple1/configs/AppBar.config.dart';
 import 'package:exemple1/configs/GetButtonNavigatBar.config.dart';
 import 'package:exemple1/db/thales.dart';
 
+
 class GetLieu extends StatefulWidget {
   GetLieu({Key? key}) : super(key: key);
   @override
@@ -414,7 +415,7 @@ class _GetLieuState extends State<GetLieu> {
               );
             }),
       ]),
-      bottomNavigationBar: GetButtonNavigatBar(context),
+      bottomNavigationBar: GetButtonNavigatBar(context,'assets/lieu_aide.pdf'),
     );
   }
 // delete function by showing a modal
