@@ -5,8 +5,9 @@ import 'package:exemple1/configs/AppBar.config.dart';
 import 'package:exemple1/configs/GetButtonNavigatBar.config.dart';
 import 'package:exemple1/db/thales.dart';
 
+
 class GetFamille extends StatefulWidget {
-  GetFamille({Key? key}) : super(key: key);
+  const GetFamille({Key? key}) : super(key: key);
 
   @override
   State<GetFamille> createState() => _GetFamilleState();
@@ -33,6 +34,7 @@ class _GetFamilleState extends State<GetFamille> {
     List<Map> res = await db.rawReadData(sql);
     return res;
   }
+  @override
 
   @override
   Widget build(BuildContext context) {
@@ -320,7 +322,7 @@ class _GetFamilleState extends State<GetFamille> {
               );
             }),
       ]),
-      bottomNavigationBar: GetButtonNavigatBar(context),
+      bottomNavigationBar: GetButtonNavigatBar(context,'assets/famille_aide.pdf'),
     );
   }
 
