@@ -252,7 +252,7 @@ class _ScanImmoState extends State<AddImmo> {
           ),
         ),
       ),
-      bottomNavigationBar: GetButtonNavigatBar(context),
+      bottomNavigationBar: GetButtonNavigatBar(context,'assets/inventer_aide.pdf'),
     );
   }
 }
