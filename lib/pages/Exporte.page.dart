@@ -4,6 +4,7 @@ import 'package:exemple1/configs/GetButtonNavigatBar.config.dart';
 import 'package:exemple1/db/thales.dart';
 import 'package:exemple1/configs/config.dart';
 
+
 class Export extends StatefulWidget {
   Export({Key? key}) : super(key: key);
 
@@ -293,7 +294,7 @@ class _GetFamilleState extends State<Export> {
               );
             }),
       ]),
-      bottomNavigationBar: GetButtonNavigatBar(context),
+      bottomNavigationBar: GetButtonNavigatBar(context,'assets/export_aide.pdf'),
     );
   }
 }
