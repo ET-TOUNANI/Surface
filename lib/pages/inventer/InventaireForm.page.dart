@@ -272,7 +272,7 @@ class _FormsPageState extends State<InventaireForm> {
           ],
         ),
       ),
-      bottomNavigationBar: GetButtonNavigatBar(context),
+      bottomNavigationBar: GetButtonNavigatBar(context,'assets/inventer_aide.pdf'),
     );
   }
 }
