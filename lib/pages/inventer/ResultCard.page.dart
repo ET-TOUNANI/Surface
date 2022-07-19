@@ -13,7 +13,7 @@ class ResultCard extends StatelessWidget {
       body: SingleChildScrollView(
         child: resWidget, // show the card details of the immo
       ),
-      bottomNavigationBar: GetButtonNavigatBar(context),
+      bottomNavigationBar: GetButtonNavigatBar(context,'assets/inventer_aide.pdf'),
     );
   }
 }
