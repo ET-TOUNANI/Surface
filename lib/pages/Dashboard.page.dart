@@ -53,7 +53,6 @@ class Dashboard extends StatelessWidget {
                                 splashColor: Colors.black26,
                                 onTap: () {
                                   try{
-                                    showAlertDialog(context,"importing");
                                     import(context,db);
                                   }catch(e){
                                     print(e);
@@ -193,11 +192,13 @@ class Dashboard extends StatelessWidget {
                        child: const Text('Oui'),
                        onPressed: () async {
                          await db
+                             .emptyTable("scan");
+                         await db
+                             .emptyTable("immo");
+                         await db
                              .emptyTable("famille");
                          await db
                              .emptyTable("lieu");
-                         await db
-                             .emptyTable("immo");
                          await db
                              .emptyTable("situation");
                          await db
