@@ -9,7 +9,6 @@ import 'package:exemple1/db/thales.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 
-
 class ChooseLieu extends StatefulWidget {
   const ChooseLieu({super.key, required this.storage,required this.idAgent});
 
@@ -247,7 +246,7 @@ class _FormsPageState extends State<ChooseLieu> {
           ],
         ),
       ),
-      bottomNavigationBar: GetButtonNavigatBar(context),
+      bottomNavigationBar: GetButtonNavigatBar(context,'assets/inventer_aide.pdf'),
     );
   }
 
