@@ -169,15 +169,16 @@ import(context, Sqldb db) async {
             }
           } else {
             // initialisation of apk
+            List<dynamic> famille = [];
             int maxRows = excel.sheets['famille']!.maxRows;
             // add famille from sheet 1
             for (int row = 1; row < maxRows; row++) {
               excel.sheets['famille']!.row(row).forEach((cell) {
-                libelle = cell.value;
-                nbrEnregistrements++;
+                famille.add(cell.value);
               }); // add famille to db
               await db.rawInsertData(
                   'INSERT INTO famille (id,libelle) VALUES("${famille[0]}","${famille[1]}")');
+              famille.clear();
             }
             List<dynamic> lieu = [];
             maxRows = excel.sheets['lieu']!.maxRows;
