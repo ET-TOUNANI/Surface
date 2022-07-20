@@ -170,13 +170,14 @@ import(context, Sqldb db) async {
             }
           } else {
             // initialisation of apk
-            nbrEnregistrements++;
+
             int maxRows = excel.sheets['famille']!.maxRows;
             // add famille from sheet 1
             for (int row = 1; row < maxRows; row++) {
               String libelle = "";
               excel.sheets['famille']!.row(row).forEach((cell) {
                 libelle = cell.value;
+                nbrEnregistrements++;
               }); // add famille to db
               await db.rawInsertData(
                   'INSERT INTO famille (libelle) VALUES("$libelle")');
