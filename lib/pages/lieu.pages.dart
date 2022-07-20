@@ -252,7 +252,7 @@ class _GetLieuState extends State<GetLieu> {
                                           maxLines: null,
                                           style: TextStyle(color: Colors.black),
                                           decoration: InputDecoration(
-                                            labelText: 'Etage',
+                                            labelText: 'Niveau',
                                             border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(30),
@@ -381,7 +381,7 @@ class _GetLieuState extends State<GetLieu> {
                               "Adresse : ${snapshot.data![i]['adresse']}    ",
                               style:
                                   TextStyle(fontSize: 20, color: Colors.white)),
-                          subtitle: Text("Etage : ${(snapshot.data![i]['etage']!=null)?snapshot.data![i]['etage']:0}",
+                          subtitle: Text("Niveau : ${(snapshot.data![i]['etage']!=null)?snapshot.data![i]['etage']:0}",
                               style:
                                   TextStyle(fontSize: 20, color: Colors.white)),
                           trailing: IconButton(
