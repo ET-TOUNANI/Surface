@@ -92,20 +92,20 @@ class Dashboard extends StatelessWidget {
                             ),
                           ),
                         ],
-                      ),
+                      ), //scan
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           _getSizedBox(context, "todo", "Lieu", 3, "/lieu"),
                           _getSizedBox(
-                              context, "settings", "Famille", 4, "/famille"),
+                              context, "calendar", "Exporter", 5, "/exporter"),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           _getSizedBox(
-                              context, "calendar", "Exporter", 5, "/exporter"),
+                              context, "settings", "Famille", 4, "/famille"),
                           SizedBox(
                             width: 154.0,
                             height: 160.0,
@@ -151,7 +151,7 @@ class Dashboard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          )
+                          )// réinitialiser
                         ],
                       ),
                     ],

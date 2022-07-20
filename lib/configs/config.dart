@@ -137,7 +137,9 @@ import(context, Sqldb db) async {
       FilePickerResult? result =
       await FilePicker.platform.pickFiles(); // import file from the device
       if (result != null) {
+
         if (result.files.first.extension == 'xlsx') {
+          int nbrEnregistrements=0;
           showAlertDialog(context,"importing");
           // condition of the extension of the file only excel file can be imported
           var bytes = File(result.files.single.path!)
@@ -155,6 +157,7 @@ import(context, Sqldb db) async {
             for (int row = 1; row < maxRows; row++) {
               excel.sheets['Sheet1']!.row(row).forEach((cell) {
                 immos.add(cell.value);
+                nbrEnregistrements++;
               });
               String idFamille= await db.isExist('select id from famille where id="${immos[3]}"');
               int idLieu= await db.isExist('select id from lieu where code_bare="${immos[4]}"');
@@ -166,16 +169,15 @@ import(context, Sqldb db) async {
             }
           } else {
             // initialisation of apk
-            List<dynamic> famille = [];
             int maxRows = excel.sheets['famille']!.maxRows;
             // add famille from sheet 1
             for (int row = 1; row < maxRows; row++) {
               excel.sheets['famille']!.row(row).forEach((cell) {
-                famille.add(cell.value);
+                libelle = cell.value;
+                nbrEnregistrements++;
               }); // add famille to db
               await db.rawInsertData(
                   'INSERT INTO famille (id,libelle) VALUES("${famille[0]}","${famille[1]}")');
-              famille.clear();
             }
             List<dynamic> lieu = [];
             maxRows = excel.sheets['lieu']!.maxRows;
@@ -209,11 +211,11 @@ import(context, Sqldb db) async {
           }
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
+             SnackBar(
                 content: Text(
-                  "les données sont bien ajouter",
-                  style: TextStyle(color: Colors.green),
-                )),
+              "$nbrEnregistrements Enregistrement(s) Importés",
+              style: TextStyle(color: Colors.green),
+            )),
           );
           // read by row
           /*for (var table in excel.tables.keys) {

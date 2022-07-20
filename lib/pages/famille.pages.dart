@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:exemple1/configs/AppBar.config.dart';
-
 import 'package:exemple1/configs/GetButtonNavigatBar.config.dart';
 import 'package:exemple1/db/thales.dart';
 
