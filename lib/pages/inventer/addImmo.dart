@@ -93,13 +93,22 @@ class _ScanImmoState extends State<AddImmo> {
               children: [
                 const SizedBox(height: 16),
                 const Text(
-                  "Ajouter un immo",
+                  "Ajouter un immo ",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
+                const SizedBox(height: 10),
+                 Text(
+                  widget.barcodeScanRes,
+                  style: const TextStyle(
+                      color: Colors.green,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 30),
+
                 DropdownButtonFormField<String>(
                   value: famChois,
                   elevation: 14,
@@ -216,10 +225,9 @@ class _ScanImmoState extends State<AddImmo> {
                     var formValid = formKey.currentState?.validate() ?? false;
                     if (formValid) {
                       var tab = famChois.split("- ");
-                      int idFamille = int.parse(tab[0]);
                       //insert the immo to db
                       String sql =
-                          "INSERT INTO immo (code_bare,ancien_code_bare,description,is_exporte,is_importer,etat,id_famille,id_lieu) VALUES('${widget.barcodeScanRes}','${widget.barcodeScanRes}',${(descriptionController.text != "") ? '"${descriptionController.text}"' : "'pas de description'"},0,0,${(etatController.text != "") ? '"${etatController.text}"' : "'Bonne qualité'"},$idFamille,${widget.idLieu})";
+                          "INSERT INTO immo (code_bare,ancien_code_bare,description,is_exporte,is_importer,etat,id_famille,id_lieu) VALUES('${widget.barcodeScanRes}','${widget.barcodeScanRes}',${(descriptionController.text != "") ? '"${descriptionController.text}"' : "'pas de description'"},0,0,${(etatController.text != "") ? '"${etatController.text}"' : "'Bonne qualité'"},'${tab[0]}',${widget.idLieu})";
                       DateTime d=DateTime.now();
                       String date="${d.day}/${d.month}/${d.year}";
                         String time="${d.hour}:${d.minute}:${d.second}";
@@ -231,7 +239,7 @@ class _ScanImmoState extends State<AddImmo> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                             content: Text(
-                          'L\'immo est bien ajouter',
+                          'L\'immo est bien ajouté',
                           style: TextStyle(color: Colors.green),
                         )),
                       );
