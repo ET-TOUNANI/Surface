@@ -167,7 +167,7 @@ import(context, Sqldb db) async {
                 immos.add(cell.value);
 
               });
-              //String idFamille= await db.isExist('select id from famille where id="${immos[3]}"');
+
               int idLieu=await db.isExist('select id from lieu where code_bare="${immos[4]}"   ');
               nbrEnregistrements++;
               if(  idLieu!=-1){
