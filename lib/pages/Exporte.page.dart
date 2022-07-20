@@ -33,7 +33,7 @@ class _GetFamilleState extends State<Export> {
       sql =
           "SELECT f.libelle , i.etat , i.code_bare, l.adresse , l.etage  , i.is_exporte "
           "FROM immo as i, famille as f , lieu as l  "
-          "WHERE f.libelle like '$searchValue%' and  f.id==i.id_famille and i.id_lieu==l.id ";
+          "WHERE f.libelle like '%$searchValue%' and  f.id==i.id_famille and i.id_lieu==l.id ";
     });
   }
 
