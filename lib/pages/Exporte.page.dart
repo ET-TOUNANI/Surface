@@ -272,7 +272,7 @@ class _GetFamilleState extends State<Export> {
                             ),
                             ListTile(
                               title: Text(
-                                  "Adresse: ${snapshot.data![i]['adresse']} étage ${(snapshot.data![i]['etage'] != null) ? snapshot.data![i]['etage'] : 0} ",
+                                  "Adresse: ${snapshot.data![i]['adresse']} niveau ${(snapshot.data![i]['etage'] != null) ? snapshot.data![i]['etage'] : 0} ",
                                   style: const TextStyle(
                                       fontSize: 20, color: Colors.white)),
                             ),
