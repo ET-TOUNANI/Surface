@@ -154,6 +154,7 @@ import(context, Sqldb db) async {
           var excel = Excel.decodeBytes(bytes); // decode the file
 
           if (excel.sheets.length == 1) {
+
             // read by col
             // excel contain just the list of "immos"
             // add list of famille from db
@@ -164,10 +165,11 @@ import(context, Sqldb db) async {
             for (int row = 1; row < maxRows; row++) {
               excel.sheets['Sheet1']!.row(row).forEach((cell) {
                 immos.add(cell.value);
-                nbrEnregistrements++;
+
               });
               //String idFamille= await db.isExist('select id from famille where id="${immos[3]}"');
               int idLieu=await db.isExist('select id from lieu where code_bare="${immos[4]}"   ');
+              nbrEnregistrements++;
               if(  idLieu!=-1){
                 // add immo to db
                 await db.rawInsertData(
@@ -177,7 +179,6 @@ import(context, Sqldb db) async {
               else{
                 continue;
               }
-
             }
           } else {
             nbrEnregistrements=0;
@@ -212,7 +213,6 @@ import(context, Sqldb db) async {
             for (int row = 1; row < maxRows; row++) {
               excel.sheets['immos']!.row(row).forEach((cell) {
                 immos.add(cell.value);
-
               }); // add immo to db
                nbrEnregistrements++;
               //String idFamille= await db.isExist('select id from famille where id="${immos[3]}"');
