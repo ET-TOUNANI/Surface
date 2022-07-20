@@ -175,6 +175,7 @@ import(context, Sqldb db) async {
             for (int row = 1; row < maxRows; row++) {
               excel.sheets['famille']!.row(row).forEach((cell) {
                 famille.add(cell.value);
+                nbrEnregistrements++;
               }); // add famille to db
               await db.rawInsertData(
                   'INSERT INTO famille (id,libelle) VALUES("${famille[0]}","${famille[1]}")');
