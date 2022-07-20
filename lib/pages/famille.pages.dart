@@ -271,7 +271,7 @@ class _GetFamilleState extends State<GetFamille> {
                                           });
                                           (response != 0)
                                               ? message =
-                                          'la famille est bien ajouter $response'
+                                          'la famille est bien ajoutée $response'
                                               : message =
                                           'Le formulaire n\'est pas valide';
                                         }
@@ -299,7 +299,7 @@ class _GetFamilleState extends State<GetFamille> {
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                           primary: Color(0xff5F59E1)),
-                                      child: const Text('Cancel'),
+                                      child: const Text('Annuler'),
                                       onPressed: () => Navigator.pop(context),
                                     )
                                   ],
@@ -359,7 +359,7 @@ class _GetFamilleState extends State<GetFamille> {
     );
   }
 
-  deleteFamille(BuildContext context, int id) {
+  deleteFamille(BuildContext context, id) {
     return showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -398,7 +398,7 @@ class _GetFamilleState extends State<GetFamille> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                               content: Text(
-                                'famille est bien supprimer',
+                                'famille est bien supprimée',
                                 style: TextStyle(color: Colors.green),
                               )),
                         );
@@ -407,7 +407,7 @@ class _GetFamilleState extends State<GetFamille> {
                     ElevatedButton(
                       style:
                       ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
-                      child: const Text('Cancel'),
+                      child: const Text('Annuler'),
                       onPressed: () => Navigator.pop(context),
                     )
                   ],
