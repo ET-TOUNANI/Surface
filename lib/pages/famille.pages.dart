@@ -148,55 +148,6 @@ class _GetFamilleState extends State<GetFamille> {
                                       children: [
                                         const SizedBox(height: 10),
                                         TextFormField(
-                                          controller: famile,
-                                          //  controller: controller,
-                                          autovalidateMode: AutovalidateMode
-                                              .onUserInteraction,
-                                          maxLines: null,
-                                          style: TextStyle(color: Colors.black),
-                                          decoration: InputDecoration(
-                                            labelText: 'Famille',
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(30),
-                                              borderSide: const BorderSide(
-                                                  color: Colors.green),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(30),
-                                              borderSide: const BorderSide(
-                                                  color: Color(0xff5F59E1)),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(30),
-                                              borderSide: const BorderSide(
-                                                  color: Color(0xff5F59E1)),
-                                            ),
-                                            errorBorder: OutlineInputBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(30),
-                                              borderSide: const BorderSide(
-                                                  color: Colors.red),
-                                            ),
-                                            labelStyle: const TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.green,
-                                            ),
-                                            isDense: true,
-                                          ),
-                                          validator: (String? value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Champ vide';
-                                            }
-                                          },
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        TextFormField(
                                           controller: id_famile,
                                           //  controller: controller,
                                           autovalidateMode: AutovalidateMode
@@ -242,6 +193,56 @@ class _GetFamilleState extends State<GetFamille> {
                                             }
                                           },
                                         ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        TextFormField(
+                                          controller: famile,
+                                          //  controller: controller,
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          maxLines: null,
+                                          style: TextStyle(color: Colors.black),
+                                          decoration: InputDecoration(
+                                            labelText: 'libelle',
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(30),
+                                              borderSide: const BorderSide(
+                                                  color: Colors.green),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(30),
+                                              borderSide: const BorderSide(
+                                                  color: Color(0xff5F59E1)),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(30),
+                                              borderSide: const BorderSide(
+                                                  color: Color(0xff5F59E1)),
+                                            ),
+                                            errorBorder: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(30),
+                                              borderSide: const BorderSide(
+                                                  color: Colors.red),
+                                            ),
+                                            labelStyle: const TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.green,
+                                            ),
+                                            isDense: true,
+                                          ),
+                                          validator: (String? value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Champ vide';
+                                            }
+                                          },
+                                        ),
+
                                       ],
                                     ),
                                   ),
