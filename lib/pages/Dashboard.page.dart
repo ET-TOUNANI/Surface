@@ -19,15 +19,12 @@ class Dashboard extends StatelessWidget {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.all(18.0),
-                child: Text(
-                  "logo  \n Thales informatique",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 28.0,
-                      fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.start,
+               Padding(
+                padding: EdgeInsets.all(1.0),
+                child: Ink.image(
+                  image:  AssetImage('assets/blem.png'),
+                  height: 120,
+                  //fit: BoxFit.cover,
                 ),
               ),
               Padding(
