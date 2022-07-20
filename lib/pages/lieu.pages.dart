@@ -313,7 +313,7 @@ class _GetLieuState extends State<GetLieu> {
                                           });
                                           (response != 0)
                                               ? message =
-                                                  'le lieu est bien ajouter $response'
+                                                  'le lieu est bien ajouté $response'
                                               : message =
                                                   'Le formulaire n\'est pas valide';
                                         }
@@ -341,7 +341,7 @@ class _GetLieuState extends State<GetLieu> {
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                           primary: Color(0xff5F59E1)),
-                                      child: const Text('Cancel'),
+                                      child: const Text('Annuler'),
                                       onPressed: () => Navigator.pop(context),
                                     )
                                   ],
@@ -445,7 +445,7 @@ class _GetLieuState extends State<GetLieu> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                               content: Text(
-                            'Lieu est bien supprimer',
+                            'Lieu est bien supprimé',
                             style: TextStyle(color: Colors.green),
                           )),
                         );
@@ -454,7 +454,7 @@ class _GetLieuState extends State<GetLieu> {
                     ElevatedButton(
                       style:
                           ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
-                      child: const Text('Cancel'),
+                      child: const Text('Annuler'),
                       onPressed: () => Navigator.pop(context),
                     )
                   ],
