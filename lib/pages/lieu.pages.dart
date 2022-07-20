@@ -24,7 +24,7 @@ class _GetLieuState extends State<GetLieu> {
   // search famille by libelle
   Search(searchValue) {
     setState(() {
-      sql = "SELECT * FROM lieu where adresse like '$searchValue%'";
+      sql = "SELECT * FROM lieu where adresse like '%$searchValue%'";
     });
   }
 
