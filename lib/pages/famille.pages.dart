@@ -259,8 +259,7 @@ class _GetFamilleState extends State<GetFamille> {
                                                 false;
                                         var message =
                                             'Le formulaire n\'est pas valide';
-                                        // String idFamille= await db.isExist('select id from famille where id="${id_famile.text}"');
-                                        if (formValid) {
+                                        if (formValid ) {
                                           int response = await db.rawInsertData(
                                               'INSERT INTO famille (id,libelle) VALUES("${id_famile.text}","${famile.text}")');
                                           famile.text="";
