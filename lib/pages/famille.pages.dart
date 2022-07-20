@@ -13,12 +13,12 @@ class GetFamille extends StatefulWidget {
 class _GetFamilleState extends State<GetFamille> {
   Sqldb db = Sqldb();
   final formKey = GlobalKey<FormState>();
-  final formKey2 = GlobalKey<FormState>(); TextEditingController search = new TextEditingController();
+  final formKey2 = GlobalKey<FormState>();
+  TextEditingController search = new TextEditingController();
   int counter = 0;
   String sql = 'SELECT * FROM famille';
   TextEditingController famile = new TextEditingController();
   TextEditingController id_famile = new TextEditingController();
-
 
   // search famille by libelle
   Search(searchValue) {
@@ -68,12 +68,12 @@ class _GetFamilleState extends State<GetFamille> {
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30),
                             borderSide:
-                            const BorderSide(color: Color(0xff5F59E1)),
+                                const BorderSide(color: Color(0xff5F59E1)),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30),
                             borderSide:
-                            const BorderSide(color: Color(0xff5F59E1)),
+                                const BorderSide(color: Color(0xff5F59E1)),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30),
@@ -90,7 +90,11 @@ class _GetFamilleState extends State<GetFamille> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.search,color: Colors.white,size: 40,),
+                  icon: Icon(
+                    Icons.search,
+                    color: Colors.white,
+                    size: 40,
+                  ),
                   onPressed: () => Search(search.text),
                 )
               ],
@@ -156,25 +160,25 @@ class _GetFamilleState extends State<GetFamille> {
                                             labelText: 'id famille',
                                             border: OutlineInputBorder(
                                               borderRadius:
-                                              BorderRadius.circular(30),
+                                                  BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Colors.green),
                                             ),
                                             enabledBorder: OutlineInputBorder(
                                               borderRadius:
-                                              BorderRadius.circular(30),
+                                                  BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Color(0xff5F59E1)),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderRadius:
-                                              BorderRadius.circular(30),
+                                                  BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Color(0xff5F59E1)),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderRadius:
-                                              BorderRadius.circular(30),
+                                                  BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Colors.red),
                                             ),
@@ -205,25 +209,25 @@ class _GetFamilleState extends State<GetFamille> {
                                             labelText: 'libelle',
                                             border: OutlineInputBorder(
                                               borderRadius:
-                                              BorderRadius.circular(30),
+                                                  BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Colors.green),
                                             ),
                                             enabledBorder: OutlineInputBorder(
                                               borderRadius:
-                                              BorderRadius.circular(30),
+                                                  BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Color(0xff5F59E1)),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderRadius:
-                                              BorderRadius.circular(30),
+                                                  BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Color(0xff5F59E1)),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderRadius:
-                                              BorderRadius.circular(30),
+                                                  BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Colors.red),
                                             ),
@@ -240,14 +244,13 @@ class _GetFamilleState extends State<GetFamille> {
                                             }
                                           },
                                         ),
-
                                       ],
                                     ),
                                   ),
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceAround,
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
@@ -259,41 +262,60 @@ class _GetFamilleState extends State<GetFamille> {
                                                 false;
                                         var message =
                                             'Le formulaire n\'est pas valide';
-                                        // String idFamille= await db.isExist('select id from famille where id="${id_famile.text}"');
-                                        if (formValid) {
-                                          int response = await db.rawInsertData(
-                                              'INSERT INTO famille (id,libelle) VALUES("${id_famile.text}","${famile.text}")');
-                                          famile.text="";
-                                          id_famile.text="";
-                                          setState(() {
-                                            _readData();
-                                            ++counter;
-                                          });
-                                          (response != 0)
-                                              ? message =
-                                          'la famille est bien ajoutée $response'
-                                              : message =
-                                          'Le formulaire n\'est pas valide';
-                                        }
 
-                                        Navigator.pop(context);
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: (message ==
-                                                'Le formulaire n\'est pas valide')
-                                                ? Text(
-                                              message,
-                                              style: TextStyle(
-                                                  color: Colors.red),
-                                            )
-                                                : Text(
-                                              message,
-                                              style: TextStyle(
-                                                  color: Colors.green),
+                                        String idFamille ="${ await db.isExist(
+                                            'select id from famille where id="${id_famile.text}"')}";
+
+                                        if (idFamille!="-1") {
+                                          Navigator.pop(context);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                "il existe déjà une famille avec l'id =${id_famile.text} ",
+                                                style: TextStyle(
+                                                    color: Colors.red),
+                                              ),
                                             ),
-                                          ),
-                                        );
+                                          );
+                                          id_famile.text="";
+                                          famile.text="";
+                                        } else {
+                                          if (formValid) {
+                                            int response = await db.rawInsertData(
+                                                'INSERT INTO famille (id,libelle) VALUES("${id_famile.text}","${famile.text}")');
+                                            famile.text = "";
+                                            id_famile.text = "";
+                                            setState(() {
+                                              _readData();
+                                              ++counter;
+                                            });
+                                            (response != 0)
+                                                ? message =
+                                                    'la famille est bien ajoutée $response'
+                                                : message =
+                                                    'Le formulaire n\'est pas valide';
+                                          }
+
+                                          Navigator.pop(context);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: (message ==
+                                                      'Le formulaire n\'est pas valide')
+                                                  ? Text(
+                                                      message,
+                                                      style: TextStyle(
+                                                          color: Colors.red),
+                                                    )
+                                                  : Text(
+                                                      message,
+                                                      style: TextStyle(
+                                                          color: Colors.green),
+                                                    ),
+                                            ),
+                                          );
+                                        }
                                       },
                                     ),
                                     ElevatedButton(
@@ -334,9 +356,10 @@ class _GetFamilleState extends State<GetFamille> {
                       return Card(
                         color: Color.fromARGB(255, 52, 52, 52),
                         child: ListTile(
-                          title: Text("${snapshot.data![i]['id']}---${snapshot.data![i]['libelle']}",
-                              style:
-                              TextStyle(fontSize: 20, color: Colors.white)),
+                          title: Text(
+                              "${snapshot.data![i]['id']}- ${snapshot.data![i]['libelle']}",
+                              style: const TextStyle(
+                                  fontSize: 20, color: Colors.white)),
                           trailing: IconButton(
                             onPressed: () {
                               deleteFamille(context, snapshot.data![i]['id']);
@@ -355,7 +378,8 @@ class _GetFamilleState extends State<GetFamille> {
               );
             }),
       ]),
-      bottomNavigationBar: GetButtonNavigatBar(context,'assets/famille.aide.pdf'),
+      bottomNavigationBar:
+          GetButtonNavigatBar(context, 'assets/famille.aide.pdf'),
     );
   }
 
@@ -385,7 +409,7 @@ class _GetFamilleState extends State<GetFamille> {
                   children: [
                     ElevatedButton(
                       style:
-                      ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
+                          ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
                       child: const Text('Oui'),
                       onPressed: () async {
                         await db.rawDeleteData(
@@ -398,15 +422,15 @@ class _GetFamilleState extends State<GetFamille> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                               content: Text(
-                                'famille est bien supprimée  ',
-                                style: TextStyle(color: Colors.green),
-                              )),
+                            'famille est bien supprimée  ',
+                            style: TextStyle(color: Colors.green),
+                          )),
                         );
                       },
                     ),
                     ElevatedButton(
                       style:
-                      ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
+                          ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
                       child: const Text('Annuler'),
                       onPressed: () => Navigator.pop(context),
                     )
