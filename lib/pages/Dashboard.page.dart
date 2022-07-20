@@ -98,14 +98,14 @@ class Dashboard extends StatelessWidget {
                         children: [
                           _getSizedBox(context, "todo", "Lieu", 3, "/lieu"),
                           _getSizedBox(
-                              context, "calendar", "Exporter", 5, "/exporter"),
+                              context, "calendar", "Exporter", 4, "/exporter"),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           _getSizedBox(
-                              context, "settings", "Famille", 4, "/famille"),
+                              context, "settings", "Famille", 5, "/famille"),
                           SizedBox(
                             width: 154.0,
                             height: 160.0,
