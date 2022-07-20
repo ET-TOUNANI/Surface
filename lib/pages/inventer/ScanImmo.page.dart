@@ -234,7 +234,7 @@ class _ScanImmoState extends State<ScanImmo> {
                   children: [
                     InputChip(
                       label: Semantics(
-                        child: Text('Agent : ${item[0]}'),
+                        child: Text('${item[0]}'),
                       ),
                       shadowColor: Colors.black12,
                       avatar: Icon(Icons.boy),
@@ -245,7 +245,7 @@ class _ScanImmoState extends State<ScanImmo> {
                     ),
                     InputChip(
                       label: Semantics(
-                        child: Text('Lieu : ${item[1]}'),
+                        child: Text('${item[1]}'),
                       ),
                       shadowColor: Colors.black12,
                       avatar: Icon(Icons.place),
