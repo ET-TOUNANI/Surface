@@ -16,14 +16,14 @@ class _GetFamilleState extends State<GetFamille> {
   final formKey2 = GlobalKey<FormState>();
   TextEditingController search = new TextEditingController();
   int counter = 0;
-  String sql = 'SELECT * FROM famille';
+  String sql = 'SELECT * FROM famille LIMIT 100';
   TextEditingController famile = new TextEditingController();
   TextEditingController id_famile = new TextEditingController();
 
   // search famille by libelle
   Search(searchValue) {
     setState(() {
-      sql = "SELECT * FROM famille where libelle like '$searchValue%'";
+      sql = "SELECT * FROM famille where libelle like '%$searchValue%' LIMIT 100";
     });
   }
 
