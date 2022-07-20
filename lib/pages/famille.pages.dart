@@ -5,9 +5,8 @@ import 'package:exemple1/configs/AppBar.config.dart';
 import 'package:exemple1/configs/GetButtonNavigatBar.config.dart';
 import 'package:exemple1/db/thales.dart';
 
-
 class GetFamille extends StatefulWidget {
-  const GetFamille({Key? key}) : super(key: key);
+  GetFamille({Key? key}) : super(key: key);
 
   @override
   State<GetFamille> createState() => _GetFamilleState();
@@ -20,6 +19,7 @@ class _GetFamilleState extends State<GetFamille> {
   int counter = 0;
   String sql = 'SELECT * FROM famille';
   TextEditingController famile = new TextEditingController();
+  TextEditingController id_famile = new TextEditingController();
 
 
   // search famille by libelle
@@ -34,7 +34,6 @@ class _GetFamilleState extends State<GetFamille> {
     List<Map> res = await db.rawReadData(sql);
     return res;
   }
-  @override
 
   @override
   Widget build(BuildContext context) {
@@ -55,40 +54,40 @@ class _GetFamilleState extends State<GetFamille> {
                     padding: const EdgeInsets.all(2.0),
                     child: SizedBox(
                       width: 305,
-                        child: TextFormField(
-                          controller: search,
-                          //  controller: controller,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          maxLines: null,
-                          style: TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            hintText: "Recherche par libelle ...",
-                            hintStyle: TextStyle(color: Colors.white38),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: const BorderSide(color: Colors.green),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide:
-                                  const BorderSide(color: Color(0xff5F59E1)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide:
-                                  const BorderSide(color: Color(0xff5F59E1)),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: const BorderSide(color: Colors.red),
-                            ),
-                            labelStyle: const TextStyle(
-                              fontSize: 20,
-                              color: Colors.green,
-                            ),
-                            isDense: true,
+                      child: TextFormField(
+                        controller: search,
+                        //  controller: controller,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        maxLines: null,
+                        style: TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          hintText: "Recherche par libelle ...",
+                          hintStyle: TextStyle(color: Colors.white38),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: Colors.green),
                           ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                            const BorderSide(color: Color(0xff5F59E1)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                            const BorderSide(color: Color(0xff5F59E1)),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                          labelStyle: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.green,
+                          ),
+                          isDense: true,
                         ),
+                      ),
                     ),
                   ),
                 ),
@@ -136,7 +135,7 @@ class _GetFamilleState extends State<GetFamille> {
                         return Padding(
                           padding: MediaQuery.of(context).viewInsets,
                           child: Container(
-                            height: 200,
+                            height: 260,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               mainAxisSize: MainAxisSize.min,
@@ -147,7 +146,7 @@ class _GetFamilleState extends State<GetFamille> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
                                       children: [
-                                        const SizedBox(height: 16),
+                                        const SizedBox(height: 10),
                                         TextFormField(
                                           controller: famile,
                                           //  controller: controller,
@@ -159,25 +158,25 @@ class _GetFamilleState extends State<GetFamille> {
                                             labelText: 'Famille',
                                             border: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Colors.green),
                                             ),
                                             enabledBorder: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Color(0xff5F59E1)),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Color(0xff5F59E1)),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                               borderSide: const BorderSide(
                                                   color: Colors.red),
                                             ),
@@ -195,7 +194,53 @@ class _GetFamilleState extends State<GetFamille> {
                                           },
                                         ),
                                         const SizedBox(
-                                          height: 16,
+                                          height: 10,
+                                        ),
+                                        TextFormField(
+                                          controller: id_famile,
+                                          //  controller: controller,
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          maxLines: null,
+                                          style: TextStyle(color: Colors.black),
+                                          decoration: InputDecoration(
+                                            labelText: 'id famille',
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(30),
+                                              borderSide: const BorderSide(
+                                                  color: Colors.green),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(30),
+                                              borderSide: const BorderSide(
+                                                  color: Color(0xff5F59E1)),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(30),
+                                              borderSide: const BorderSide(
+                                                  color: Color(0xff5F59E1)),
+                                            ),
+                                            errorBorder: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(30),
+                                              borderSide: const BorderSide(
+                                                  color: Colors.red),
+                                            ),
+                                            labelStyle: const TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.green,
+                                            ),
+                                            isDense: true,
+                                          ),
+                                          validator: (String? value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Champ vide';
+                                            }
+                                          },
                                         ),
                                       ],
                                     ),
@@ -203,7 +248,7 @@ class _GetFamilleState extends State<GetFamille> {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                  MainAxisAlignment.spaceAround,
                                   children: [
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
@@ -215,19 +260,21 @@ class _GetFamilleState extends State<GetFamille> {
                                                 false;
                                         var message =
                                             'Le formulaire n\'est pas valide';
+                                        // String idFamille= await db.isExist('select id from famille where id="${id_famile.text}"');
                                         if (formValid) {
                                           int response = await db.rawInsertData(
-                                              'INSERT INTO famille (libelle) VALUES("${famile.text}")');
+                                              'INSERT INTO famille (id,libelle) VALUES("${id_famile.text}","${famile.text}")');
                                           famile.text="";
+                                          id_famile.text="";
                                           setState(() {
                                             _readData();
                                             ++counter;
                                           });
                                           (response != 0)
                                               ? message =
-                                                  'la famille est bien ajouter $response'
+                                          'la famille est bien ajouter $response'
                                               : message =
-                                                  'Le formulaire n\'est pas valide';
+                                          'Le formulaire n\'est pas valide';
                                         }
 
                                         Navigator.pop(context);
@@ -235,17 +282,17 @@ class _GetFamilleState extends State<GetFamille> {
                                             .showSnackBar(
                                           SnackBar(
                                             content: (message ==
-                                                    'Le formulaire n\'est pas valide')
+                                                'Le formulaire n\'est pas valide')
                                                 ? Text(
-                                                    message,
-                                                    style: TextStyle(
-                                                        color: Colors.red),
-                                                  )
+                                              message,
+                                              style: TextStyle(
+                                                  color: Colors.red),
+                                            )
                                                 : Text(
-                                                    message,
-                                                    style: TextStyle(
-                                                        color: Colors.green),
-                                                  ),
+                                              message,
+                                              style: TextStyle(
+                                                  color: Colors.green),
+                                            ),
                                           ),
                                         );
                                       },
@@ -270,19 +317,6 @@ class _GetFamilleState extends State<GetFamille> {
               const SizedBox(
                 width: 16,
               ),
-              Ink(
-                decoration: const ShapeDecoration(
-                  color: Colors.white38,
-                  shape: CircleBorder(),
-                ),
-                child: IconButton(
-                  icon: const Icon(Icons.import_export),
-                  color: Colors.white,
-                  onPressed: () {
-                    Navigator.pushNamed(context, "/importFamille");
-                  },
-                ),
-              ),
             ],
           )
         ]),
@@ -301,9 +335,9 @@ class _GetFamilleState extends State<GetFamille> {
                       return Card(
                         color: Color.fromARGB(255, 52, 52, 52),
                         child: ListTile(
-                          title: Text("${snapshot.data![i]['libelle']}",
+                          title: Text("${snapshot.data![i]['id']}---${snapshot.data![i]['libelle']}",
                               style:
-                                  TextStyle(fontSize: 20, color: Colors.white)),
+                              TextStyle(fontSize: 20, color: Colors.white)),
                           trailing: IconButton(
                             onPressed: () {
                               deleteFamille(context, snapshot.data![i]['id']);
@@ -352,11 +386,11 @@ class _GetFamilleState extends State<GetFamille> {
                   children: [
                     ElevatedButton(
                       style:
-                          ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
+                      ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
                       child: const Text('Oui'),
                       onPressed: () async {
                         await db.rawDeleteData(
-                            "DELETE FROM famille WHERE id=${id}");
+                            'DELETE FROM famille WHERE id="${id}"');
                         setState(() {
                           _readData();
                           ++counter;
@@ -365,15 +399,15 @@ class _GetFamilleState extends State<GetFamille> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                               content: Text(
-                            'famille est bien supprimer',
-                            style: TextStyle(color: Colors.green),
-                          )),
+                                'famille est bien supprimer',
+                                style: TextStyle(color: Colors.green),
+                              )),
                         );
                       },
                     ),
                     ElevatedButton(
                       style:
-                          ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
+                      ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
                       child: const Text('Cancel'),
                       onPressed: () => Navigator.pop(context),
                     )

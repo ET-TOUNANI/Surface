@@ -8,7 +8,6 @@ import 'package:permission_handler/permission_handler.dart';
 
 
 
-
 showAlertDialog(BuildContext context,String operation){
   AlertDialog alert=AlertDialog(
     content: Row(
@@ -62,12 +61,12 @@ Future<void> export(Sqldb db, int totaliteOrNot) async {
   if (totaliteOrNot == 0) {
     // export all the immos or not
     sql =
-        "SELECT i.code_bare,i.description,i.etat,f.libelle,l.code_bare as code_bareLieu "
+    "SELECT i.code_bare,i.description,i.etat,f.id,l.code_bare as code_bareLieu "
         " FROM immo as i , famille as f,lieu as l "
         " WHERE i.id_famille==f.id and i.id_lieu==l.id ";
   } else {
     sql =
-        "SELECT i.code_bare,i.description,i.etat,f.libelle,l.code_bare as code_bareLieu "
+    "SELECT i.code_bare,i.description,i.etat,f.id,l.code_bare as code_bareLieu "
         " FROM immo as i , famille as f,lieu as l "
         " WHERE i.id_famille==f.id and i.id_lieu==l.id  and i.is_exporte==0";
   }
@@ -83,10 +82,10 @@ Future<void> export(Sqldb db, int totaliteOrNot) async {
     var cell3 = sheetObject.cell(CellIndex.indexByString("C$i"));
     cell3.value = "${immo['etat']}"; // dynamic values support provided;
     var cell4 = sheetObject.cell(CellIndex.indexByString("D$i"));
-    cell4.value = "${immo['libelle']}"; // dynamic values support provided;
+    cell4.value = "${immo['id']}"; // dynamic values support provided;
     var cell5 = sheetObject.cell(CellIndex.indexByString("E$i"));
     cell5.value =
-        "${immo['code_bareLieu']}"; // dynamic values support provided;
+    "${immo['code_bareLieu']}"; // dynamic values support provided;
     i++;
   }
 
@@ -136,7 +135,7 @@ import(context, Sqldb db) async {
     // ask for permission
     try {
       FilePickerResult? result =
-          await FilePicker.platform.pickFiles(); // import file from the device
+      await FilePicker.platform.pickFiles(); // import file from the device
       if (result != null) {
         if (result.files.first.extension == 'xlsx') {
           showAlertDialog(context,"importing");
@@ -157,36 +156,36 @@ import(context, Sqldb db) async {
               excel.sheets['Sheet1']!.row(row).forEach((cell) {
                 immos.add(cell.value);
               });
-              int idFamille= await db.isExist('select id from famille where libelle="${immos[3]}"');
+              String idFamille= await db.isExist('select id from famille where id="${immos[3]}"');
               int idLieu= await db.isExist('select id from lieu where code_bare="${immos[4]}"');
 
               // add immo to db
               await db.rawInsertData(
-                  'INSERT INTO immo (code_bare,ancien_code_bare,description,is_exporte,is_importer,etat,id_famille,id_lieu) VALUES("${immos[0]}","${immos[0]}","${immos[1]}",0,1,"${immos[2]}",$idFamille,$idLieu)');
+                  'INSERT INTO immo (code_bare,ancien_code_bare,description,is_exporte,is_importer,etat,id_famille,id_lieu) VALUES("${immos[0]}","${immos[0]}","${immos[1]}",0,1,"${immos[2]}","$idFamille",$idLieu)');
               immos.clear();
             }
           } else {
             // initialisation of apk
-
+            List<dynamic> famille = [];
             int maxRows = excel.sheets['famille']!.maxRows;
             // add famille from sheet 1
             for (int row = 1; row < maxRows; row++) {
-              String libelle = "";
               excel.sheets['famille']!.row(row).forEach((cell) {
-                libelle = cell.value;
+                famille.add(cell.value);
               }); // add famille to db
               await db.rawInsertData(
-                  'INSERT INTO famille (libelle) VALUES("$libelle")');
+                  'INSERT INTO famille (id,libelle) VALUES("${famille[0]}","${famille[1]}")');
+              famille.clear();
             }
-
-            maxRows = excel.sheets['lieu']!.maxRows;
             List<dynamic> lieu = [];
+            maxRows = excel.sheets['lieu']!.maxRows;
+
             // add lieu from sheet 2
             for (int row = 1; row < maxRows; row++) {
               excel.sheets['lieu']!.row(row).forEach((cell) {
                 lieu.add(cell.value);
               }); // add lieu to db
-               await db.rawInsertData(
+              await db.rawInsertData(
                   'INSERT INTO lieu (adresse,etage,code_bare) VALUES("${lieu[0]}",${lieu[1]},"${lieu[2]}")');
               lieu.clear();
             }
@@ -198,13 +197,13 @@ import(context, Sqldb db) async {
               excel.sheets['immos']!.row(row).forEach((cell) {
                 immos.add(cell.value);
               }); // add immo to db
-              int idFamille= await db.isExist('select id from famille where libelle="${immos[3]}"');
+              String idFamille= await db.isExist('select id from famille where id="${immos[3]}"');
               int idLieu= await db.isExist('select id from lieu where code_bare="${immos[4]}"');
               print(idFamille);
               print(idLieu);
               // add immo to db
               await db.rawInsertData(
-                  'INSERT INTO immo (code_bare,ancien_code_bare,description,is_exporte,is_importer,etat,id_famille,id_lieu) VALUES("${immos[0]}","${immos[0]}","${immos[1]}",0,1,"${immos[2]}",${idFamille},${idLieu})');
+                  'INSERT INTO immo (code_bare,ancien_code_bare,description,is_exporte,is_importer,etat,id_famille,id_lieu) VALUES("${immos[0]}","${immos[0]}","${immos[1]}",0,1,"${immos[2]}","${idFamille}",${idLieu})');
               immos.clear();
             }
           }
@@ -212,9 +211,9 @@ import(context, Sqldb db) async {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
                 content: Text(
-              "les données sont bien ajouter",
-              style: TextStyle(color: Colors.green),
-            )),
+                  "les données sont bien ajouter",
+                  style: TextStyle(color: Colors.green),
+                )),
           );
           // read by row
           /*for (var table in excel.tables.keys) {
@@ -242,9 +241,9 @@ import(context, Sqldb db) async {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
                 content: Text(
-              "Veuillez sélectionner une extension correcte !",
-              style: TextStyle(color: Colors.red),
-            )),
+                  "Veuillez sélectionner une extension correcte !",
+                  style: TextStyle(color: Colors.red),
+                )),
           );
         }
       } else {
@@ -256,3 +255,6 @@ import(context, Sqldb db) async {
     }
   }
 }
+
+
+

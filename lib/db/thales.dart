@@ -12,7 +12,7 @@ class Sqldb {
 
     }
 
-      return _db;
+    return _db;
   }
   _onConfigure(Database db)async{
     await db.execute("PRAGMA foreign_keys=ON");
@@ -52,7 +52,7 @@ class Sqldb {
     ''');
     batch.execute('''
     CREATE TABLE  IF NOT EXISTS "famille" 
-    ("id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    ("id"	TEXT NOT NULL PRIMARY KEY UNIQUE,
     "libelle"	TEXT NOT NULL 
     )
     ''');
@@ -87,7 +87,7 @@ class Sqldb {
     "description"  TEXT ,
     "is_exporte" INTEGER ,
     "is_importer" INTEGER , 
-    "id_famille" INTEGER ,
+    "id_famille" TEXT NULL,
     "id_lieu" INTEGER,
     FOREIGN KEY("id_famille") REFERENCES famille("id"),
     FOREIGN KEY("id_lieu") REFERENCES lieu("id")

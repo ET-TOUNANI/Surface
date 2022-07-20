@@ -358,19 +358,6 @@ class _GetLieuState extends State<GetLieu> {
               const SizedBox(
                 width: 16,
               ),
-              Ink(
-                decoration: const ShapeDecoration(
-                  color: Colors.white38,
-                  shape: CircleBorder(),
-                ),
-                child: IconButton(
-                  icon: const Icon(Icons.import_export),
-                  color: Colors.white,
-                  onPressed: () {
-                    Navigator.pushNamed(context, "/importLieu");
-                  },
-                ),
-              ),
             ],
           )
         ]),
