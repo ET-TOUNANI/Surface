@@ -398,7 +398,7 @@ class _GetFamilleState extends State<GetFamille> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                               content: Text(
-                                'famille est bien supprimée',
+                                'famille est bien supprimée  ',
                                 style: TextStyle(color: Colors.green),
                               )),
                         );
