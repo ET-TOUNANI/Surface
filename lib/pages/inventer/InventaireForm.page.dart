@@ -255,7 +255,8 @@ class _FormsPageState extends State<InventaireForm> {
                             int rep = await db.rawInsertData("INSERT INTO agent (nom,prenom) VALUES('${nom[0]}','${prenom}')");
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseLieu(storage: agentController.text,idAgent: rep,)));
                           }
-                          else{
+                          else{// niveau etage
+
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   content: Text(
