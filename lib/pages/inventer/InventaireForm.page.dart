@@ -248,8 +248,11 @@ class _FormsPageState extends State<InventaireForm> {
                         elevation: 20,
                         onPressed: () async{
                           if (agentController.text.isNotEmpty) {
-                            var nom=agentController.text.split(" ");
-                            int rep = await db.rawInsertData("INSERT INTO agent (nom,prenom) VALUES('${nom[0]}','${nom[1]}')");
+
+                            String prenom="-";
+                            var nom= agentController.text.split(" ");
+                            prenom=(nom.length==1)?prenom:nom[1];
+                            int rep = await db.rawInsertData("INSERT INTO agent (nom,prenom) VALUES('${nom[0]}','${prenom}')");
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseLieu(storage: agentController.text,idAgent: rep,)));
                           }
                           else{
