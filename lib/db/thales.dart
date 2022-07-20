@@ -148,6 +148,7 @@ class Sqldb {
         return value['id'];
       }
     }
+
     return -1;
   }
   // insert data to db by giving the name of the table and the list of values
