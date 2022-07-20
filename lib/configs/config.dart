@@ -141,13 +141,12 @@ import(context, Sqldb db) async {
   if (await Permission.storage.request().isGranted) {
     // ask for permission
     try {
+      showAlertDialog(context,"importing");
       FilePickerResult? result =
       await FilePicker.platform.pickFiles(); // import file from the device
       if (result != null) {
-
         if (result.files.first.extension == 'xlsx') {
           int nbrEnregistrements=0;
-          showAlertDialog(context,"importing");
           // condition of the extension of the file only excel file can be imported
           var bytes = File(result.files.single.path!)
               .readAsBytesSync(); // read the file as bytes
