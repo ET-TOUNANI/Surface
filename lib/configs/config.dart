@@ -31,7 +31,7 @@ showAlertDialog(BuildContext context,String operation){
 
 
 // export data from db to excel file
-Future<void> export(Sqldb db, int totaliteOrNot) async {
+Future<void> export(Sqldb db, int totaliteOrNot,context) async {
   var excel = Excel.createExcel();
 
   Sheet sheetObject = excel['Sheet1'];
@@ -119,6 +119,13 @@ Future<void> export(Sqldb db, int totaliteOrNot) async {
       await File('./storage/emulated/0/Download/$name.xlsx')
           .writeAsBytes(List.from(await excel.encode()), flush: true)
           .then((value) => print('saved'));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(
+              "${i-2} Enregistrement(s) Exportés",
+              style: TextStyle(color: Colors.green),
+            )),
+      );
     } catch (e) {
       print(e);
     }
@@ -175,7 +182,6 @@ import(context, Sqldb db) async {
             for (int row = 1; row < maxRows; row++) {
               excel.sheets['famille']!.row(row).forEach((cell) {
                 famille.add(cell.value);
-                nbrEnregistrements++;
               }); // add famille to db
               await db.rawInsertData(
                   'INSERT INTO famille (id,libelle) VALUES("${famille[0]}","${famille[1]}")');
@@ -200,7 +206,9 @@ import(context, Sqldb db) async {
             for (int row = 1; row < maxRows; row++) {
               excel.sheets['immos']!.row(row).forEach((cell) {
                 immos.add(cell.value);
+
               }); // add immo to db
+               nbrEnregistrements++;
               String idFamille= await db.isExist('select id from famille where id="${immos[3]}"');
               int idLieu= await db.isExist('select id from lieu where code_bare="${immos[4]}"');
               print(idFamille);
