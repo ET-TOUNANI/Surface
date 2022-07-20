@@ -205,26 +205,18 @@ class _GetFamilleState extends State<Export> {
                                   style: ElevatedButton.styleFrom(
                                       primary: Colors.green),
                                   child: const Text('la totalité'),
-                                  onPressed: () async {
-                                    try{
-                                      showAlertDialog(context,"exporting");
-                                      await export(db,0);
-                                      await db.rawUpdateData("UPDATE immo SET is_exporte=1");
-                                      Navigator.pop(context);
-                                    }catch(e){
-                                      print(e);
-                                    }
-
+                                  onPressed: ()  {
+                                    Navigator.pop(context);
+                                    exprt(0);
                                   },
                                 ),
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       primary: Colors.blue),
                                   child: const Text('les nouveaux immos'),
-                                  onPressed: () async {
-                                    await export(db,1);
-                                    await db.rawUpdateData("UPDATE immo SET is_exporte=1");
+                                  onPressed: ()  {
                                     Navigator.pop(context);
+                                    exprt(1);
                                   },
                                 ),
                                 ElevatedButton(
@@ -296,5 +288,19 @@ class _GetFamilleState extends State<Export> {
       ]),
       bottomNavigationBar: GetButtonNavigatBar(context,'assets/export_aide.pdf'),
     );
+  }
+
+  void exprt(int i) async{
+    showAlertDialog(context,"exporting");
+    try{
+
+      await export(db,i,context);
+      Navigator.pop(context);
+      await db.rawUpdateData("UPDATE immo SET is_exporte=1");
+
+    }catch(e){
+      print(e);
+    }
+
   }
 }
