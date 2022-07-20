@@ -355,7 +355,7 @@ class _GetFamilleState extends State<GetFamille> {
               );
             }),
       ]),
-      bottomNavigationBar: GetButtonNavigatBar(context,'assets/famille_aide.pdf'),
+      bottomNavigationBar: GetButtonNavigatBar(context,'assets/famille.aide.pdf'),
     );
   }
 
