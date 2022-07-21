@@ -1,5 +1,5 @@
-# projet Stage <SURFACE>
+# projet Stage "SURFACE"
 
-# Gestion des biens
+## Gestion des biens
 
-<img src="import.gif">
+<center><img src="import.gif"></center>
