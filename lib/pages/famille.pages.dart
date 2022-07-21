@@ -68,12 +68,16 @@ class _GetFamilleState extends State<GetFamille> {
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30),
                             borderSide:
-                                const BorderSide(color: Color(0xff5F59E1)),
+
+                                const BorderSide(color: Color.fromARGB(255,0, 118, 182)),
+
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30),
                             borderSide:
-                                const BorderSide(color: Color(0xff5F59E1)),
+
+                                const BorderSide(color: Color.fromARGB(255,0, 118, 182)),
+
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30),
@@ -81,7 +85,7 @@ class _GetFamilleState extends State<GetFamille> {
                           ),
                           labelStyle: const TextStyle(
                             fontSize: 20,
-                            color: Colors.green,
+                            color: Color.fromARGB(255,0, 183, 241),
                           ),
                           isDense: true,
                         ),
@@ -162,19 +166,19 @@ class _GetFamilleState extends State<GetFamille> {
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                               borderSide: const BorderSide(
-                                                  color: Colors.green),
+                                                  color: Color.fromARGB(255,0, 118, 182)),
                                             ),
                                             enabledBorder: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                               borderSide: const BorderSide(
-                                                  color: Color(0xff5F59E1)),
+                                                  color: Color.fromARGB(255,0, 118, 182)),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                               borderSide: const BorderSide(
-                                                  color: Color(0xff5F59E1)),
+                                                  color: Color.fromARGB(255,0, 118, 182)),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderRadius:
@@ -184,7 +188,7 @@ class _GetFamilleState extends State<GetFamille> {
                                             ),
                                             labelStyle: const TextStyle(
                                               fontSize: 20,
-                                              color: Colors.green,
+                                              color: Color.fromARGB(255,0, 183, 241),
                                             ),
                                             isDense: true,
                                           ),
@@ -217,13 +221,13 @@ class _GetFamilleState extends State<GetFamille> {
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                               borderSide: const BorderSide(
-                                                  color: Color(0xff5F59E1)),
+                                                  color: Color.fromARGB(255,0, 118, 182)),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                               borderSide: const BorderSide(
-                                                  color: Color(0xff5F59E1)),
+                                                  color: Color.fromARGB(255,0, 118, 182)),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderRadius:
@@ -233,7 +237,7 @@ class _GetFamilleState extends State<GetFamille> {
                                             ),
                                             labelStyle: const TextStyle(
                                               fontSize: 20,
-                                              color: Colors.green,
+                                              color: Color.fromARGB(255,0, 183, 241),
                                             ),
                                             isDense: true,
                                           ),
@@ -254,7 +258,7 @@ class _GetFamilleState extends State<GetFamille> {
                                   children: [
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                          primary: Color(0xff5F59E1)),
+                                          primary: Color.fromARGB(255,0, 118, 182)),
                                       child: const Text('Enregistrer'),
                                       onPressed: () async {
                                         var formValid =
@@ -320,7 +324,7 @@ class _GetFamilleState extends State<GetFamille> {
                                     ),
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                          primary: Color(0xff5F59E1)),
+                                          primary: Color.fromARGB(255,0, 118, 182)),
                                       child: const Text('Annuler'),
                                       onPressed: () => Navigator.pop(context),
                                     )
@@ -409,7 +413,8 @@ class _GetFamilleState extends State<GetFamille> {
                   children: [
                     ElevatedButton(
                       style:
-                          ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
+
+                          ElevatedButton.styleFrom(primary: Color.fromARGB(255,0, 118, 182)),
                       child: const Text('Oui'),
                       onPressed: () async {
                         await db.rawDeleteData(
@@ -430,7 +435,9 @@ class _GetFamilleState extends State<GetFamille> {
                     ),
                     ElevatedButton(
                       style:
-                          ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
+
+                          ElevatedButton.styleFrom(primary: Color.fromARGB(255,0, 118, 182)),
+
                       child: const Text('Annuler'),
                       onPressed: () => Navigator.pop(context),
                     )

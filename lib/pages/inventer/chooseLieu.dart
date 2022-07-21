@@ -49,7 +49,7 @@ class _FormsPageState extends State<ChooseLieu> {
           children: [
             Text(
               "${map['id']}- ${map['adresse']} ${(map['etage'] == 0) ? '' : '\nétage : ${map['etage']}'}",
-            style: const TextStyle(fontSize: 16),),
+            style: const TextStyle(fontSize: 16, color: Color.fromARGB(255,0, 118, 182)),),
             const Divider(
               color: Colors.green,
               indent: 10,
@@ -101,7 +101,8 @@ class _FormsPageState extends State<ChooseLieu> {
 
                     InputChip(
                       label: Semantics(
-                        child:  Text('Agent : ${widget.storage}'),
+                        child:  Text('Agent : ${widget.storage}'
+                                 ),
                       ),
                       shadowColor: Colors.black12,
                       avatar: const Icon(Icons.boy),
@@ -302,7 +303,7 @@ UpdateAgent(BuildContext context) {
                 children: [
                   ElevatedButton(
                     style:
-                    ElevatedButton.styleFrom(primary: const Color(0xff5F59E1)),
+                    ElevatedButton.styleFrom(primary:  Color.fromARGB(255,0, 118, 182)),
                     child: const Text('Oui'),
                     onPressed: ()  {
                       Navigator.pop(context);
@@ -311,8 +312,8 @@ UpdateAgent(BuildContext context) {
                   ),
                   ElevatedButton(
                     style:
-                    ElevatedButton.styleFrom(primary: const Color(0xff5F59E1)),
-                    child: const Text('Cancel'),
+                    ElevatedButton.styleFrom(primary: const Color.fromARGB(255,0, 118, 182)),
+                    child: const Text('Annuler'),
                     onPressed: () => Navigator.pop(context),
                   )
                 ],

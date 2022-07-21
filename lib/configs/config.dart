@@ -263,7 +263,7 @@ import(context, Sqldb db) async {
         }
       } else {
         // User canceled the picker
-
+       Navigator.pop(context);
       }
     } catch (e) {
       print(e);
