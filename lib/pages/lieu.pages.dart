@@ -69,12 +69,12 @@ class _GetLieuState extends State<GetLieu> {
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30),
                             borderSide:
-                            const BorderSide(color: Color(0xff5F59E1)),
+                            const BorderSide(color: Color.fromARGB(255,0, 118, 182)),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30),
                             borderSide:
-                            const BorderSide(color: Color(0xff5F59E1)),
+                            const BorderSide(color: Color.fromARGB(255,0, 118, 182)),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30),
@@ -165,13 +165,13 @@ class _GetLieuState extends State<GetLieu> {
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                               borderSide: const BorderSide(
-                                                  color: Color(0xff5F59E1)),
+                                                  color: Color.fromARGB(255,0, 118, 182)),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                               borderSide: const BorderSide(
-                                                  color: Color(0xff5F59E1)),
+                                                  color: Color.fromARGB(255,0, 118, 182)),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderRadius:
@@ -181,7 +181,7 @@ class _GetLieuState extends State<GetLieu> {
                                             ),
                                             labelStyle: const TextStyle(
                                               fontSize: 20,
-                                              color: Colors.green,
+                                              color: Color.fromARGB(255,0, 183, 241),
                                             ),
                                             isDense: true,
                                           ),
@@ -214,13 +214,13 @@ class _GetLieuState extends State<GetLieu> {
                                               borderRadius:
                                               BorderRadius.circular(30),
                                               borderSide: const BorderSide(
-                                                  color: Color(0xff5F59E1)),
+                                                  color: Color.fromARGB(255,0, 118, 182)),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderRadius:
                                               BorderRadius.circular(30),
                                               borderSide: const BorderSide(
-                                                  color: Color(0xff5F59E1)),
+                                                  color: Color.fromARGB(255,0, 118, 182)),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderRadius:
@@ -230,7 +230,7 @@ class _GetLieuState extends State<GetLieu> {
                                             ),
                                             labelStyle: const TextStyle(
                                               fontSize: 20,
-                                              color: Colors.green,
+                                              color: Color.fromARGB(255,0, 183, 241),
                                             ),
                                             isDense: true,
                                           ),
@@ -263,13 +263,13 @@ class _GetLieuState extends State<GetLieu> {
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                               borderSide: const BorderSide(
-                                                  color: Color(0xff5F59E1)),
+                                                  color: Color.fromARGB(255,0, 118, 182)),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                               borderSide: const BorderSide(
-                                                  color: Color(0xff5F59E1)),
+                                                  color: Color.fromARGB(255,0, 118, 182)),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderRadius:
@@ -279,7 +279,7 @@ class _GetLieuState extends State<GetLieu> {
                                             ),
                                             labelStyle: const TextStyle(
                                               fontSize: 20,
-                                              color: Colors.green,
+                                              color: Color.fromARGB(255,0, 183, 241),
                                             ),
                                             isDense: true,
                                           ),
@@ -294,7 +294,7 @@ class _GetLieuState extends State<GetLieu> {
                                   children: [
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                          primary: Color(0xff5F59E1)),
+                                          primary: Color.fromARGB(255,0, 118, 182)),
                                       child: const Text('Enregistrer'),
                                       onPressed: () async {
                                         var formValid =
@@ -340,7 +340,7 @@ class _GetLieuState extends State<GetLieu> {
                                     ),
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                          primary: Color(0xff5F59E1)),
+                                          primary: Color.fromARGB(255,0, 118, 182)),
                                       child: const Text('Annuler'),
                                       onPressed: () => Navigator.pop(context),
                                     )
@@ -432,7 +432,7 @@ class _GetLieuState extends State<GetLieu> {
                   children: [
                     ElevatedButton(
                       style:
-                          ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
+                          ElevatedButton.styleFrom(primary: Color.fromARGB(255,0, 118, 182)),
                       child: const Text('Oui'),
                       onPressed: () async {
                         await db
@@ -453,7 +453,7 @@ class _GetLieuState extends State<GetLieu> {
                     ),
                     ElevatedButton(
                       style:
-                          ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
+                          ElevatedButton.styleFrom(primary: Color.fromARGB(255,0, 118, 182)),
                       child: const Text('Annuler'),
                       onPressed: () => Navigator.pop(context),
                     )
