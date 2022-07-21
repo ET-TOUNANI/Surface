@@ -252,6 +252,7 @@ import(context, Sqldb db) async {
           }*/
 
         } else {
+          Navigator.pop(context);
           // not the right extension
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
