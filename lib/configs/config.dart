@@ -216,7 +216,6 @@ import(context, Sqldb db) async {
                nbrEnregistrements++;
               //String idFamille= await db.isExist('select id from famille where id="${immos[3]}"');
               int idLieu= await db.isExist('select id from lieu where code_bare="${immos[4]}"');
-
               // add immo to db
               await db.rawInsertData(
                   'INSERT INTO immo (code_bare,ancien_code_bare,description,is_exporte,is_importer,etat,id_famille,id_lieu) VALUES("${immos[0]}","${immos[0]}","${immos[1]}",0,1,"${immos[2]}","${immos[3]}",${idLieu})');
