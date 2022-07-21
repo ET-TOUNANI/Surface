@@ -188,7 +188,7 @@ class Dashboard extends StatelessWidget {
                    children: [
                      ElevatedButton(
                        style:
-                       ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
+                       ElevatedButton.styleFrom(primary: Color.fromARGB(255,0, 118, 182)),
                        child: const Text('Oui'),
                        onPressed: () async {
                          await db
@@ -217,8 +217,8 @@ class Dashboard extends StatelessWidget {
                      ),
                      ElevatedButton(
                        style:
-                       ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
-                       child: const Text('Cancel'),
+                       ElevatedButton.styleFrom(primary: Color.fromARGB(255,0, 118, 182)),
+                       child: const Text('Annuler'),
                        onPressed: () => Navigator.pop(context),
                      )
                    ],

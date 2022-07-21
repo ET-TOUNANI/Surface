@@ -99,6 +99,17 @@ class _ScanImmoState extends State<AddImmo> {
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
+<<<<<<< Updated upstream
+=======
+                const SizedBox(height: 10),
+                 Text(
+                  widget.barcodeScanRes,
+                  style: const TextStyle(
+                      color: Color.fromARGB(255,0, 118, 182),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                ),
+>>>>>>> Stashed changes
                 const SizedBox(height: 30),
                 DropdownButtonFormField<String>(
                   value: famChois,
@@ -113,11 +124,11 @@ class _ScanImmoState extends State<AddImmo> {
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(color: Color(0xff5F59E1)),
+                      borderSide: const BorderSide(color: Color.fromARGB(255,0, 118, 182)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(color: Color(0xff5F59E1)),
+                      borderSide: const BorderSide(color: Color.fromARGB(255,0, 118, 182)),
                     ),
                     errorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -125,10 +136,10 @@ class _ScanImmoState extends State<AddImmo> {
                     ),
                     labelStyle: const TextStyle(
                       fontSize: 20,
-                      color: Colors.green,
+                      color: Color.fromARGB(255,0, 183, 241),
                     ),
                   ),
-                  style: const TextStyle(color: Colors.deepOrange, fontSize: 20),
+                  style: const TextStyle(color: Color.fromARGB(255,0, 118, 182), fontSize: 20),
                   validator: (String? value) {
                     if (value == null || value.isEmpty || value == " ") {
                       return 'Champ vide';
@@ -158,11 +169,11 @@ class _ScanImmoState extends State<AddImmo> {
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(color: Color(0xff5F59E1)),
+                      borderSide: const BorderSide(color: Color.fromARGB(255,0, 118, 182)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(color: Color(0xff5F59E1)),
+                      borderSide: const BorderSide(color: Color.fromARGB(255,0, 118, 182)),
                     ),
                     errorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -170,7 +181,7 @@ class _ScanImmoState extends State<AddImmo> {
                     ),
                     labelStyle: const TextStyle(
                       fontSize: 20,
-                      color: Colors.green,
+                      color: Color.fromARGB(255,0, 183, 241),
                     ),
                     isDense: true,
                   ),
@@ -192,11 +203,11 @@ class _ScanImmoState extends State<AddImmo> {
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(color: Color(0xff5F59E1)),
+                      borderSide: const BorderSide(color: Color.fromARGB(255,0, 118, 182)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(color: Color(0xff5F59E1)),
+                      borderSide: const BorderSide(color: Color.fromARGB(255,0, 118, 182)),
                     ),
                     errorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -204,13 +215,13 @@ class _ScanImmoState extends State<AddImmo> {
                     ),
                     labelStyle: const TextStyle(
                       fontSize: 20,
-                      color: Colors.green,
+                      color: Color.fromARGB(255,0, 183, 241),
                     ),
                     isDense: true,
                   ),
                 ),
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: const Color(0xff5F59E1)),
+                  style: ElevatedButton.styleFrom(primary: Color.fromARGB(255,0, 118, 182)),
                   child: const Text('Ajouter'),
                   onPressed: () async {
                     var formValid = formKey.currentState?.validate() ?? false;

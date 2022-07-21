@@ -38,6 +38,7 @@ class _FormsPageState extends State<InventaireForm> {
               children: [
                 Text(
                   "Autre",
+                  style: TextStyle(color: Color.fromARGB(255,0, 118, 182)),
                 ),
                 Divider(
                   color: Colors.green,
@@ -62,6 +63,7 @@ class _FormsPageState extends State<InventaireForm> {
           children: [
             Text(
               "${map['id']}- ${map['nom']} ${map['prenom']}",
+              style: TextStyle(color: Color.fromARGB(255,0, 118, 182)),
             ),
             const Divider(
               color: Colors.green,
@@ -175,7 +177,7 @@ class _FormsPageState extends State<InventaireForm> {
                         label: Semantics(
                           child: const Text('Suivant'),
                         ),
-                        shadowColor: Colors.white38,
+                        shadowColor: Color.fromARGB(255,0, 118, 182),
                         avatar: Icon(Icons.next_plan),
                         elevation: 20,
                         onPressed: () {
@@ -208,13 +210,13 @@ class _FormsPageState extends State<InventaireForm> {
                             borderRadius:
                             BorderRadius.circular(30),
                             borderSide: const BorderSide(
-                                color: Color(0xff5F59E1)),
+                                color: Color.fromARGB(255,0, 118, 182)),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius:
                             BorderRadius.circular(30),
                             borderSide: const BorderSide(
-                                color: Color(0xff5F59E1)),
+                                color: Color.fromARGB(255,0, 118, 182)),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius:
@@ -225,7 +227,7 @@ class _FormsPageState extends State<InventaireForm> {
                           hintText: "Entrer votre nom et votre prénom",
                           labelStyle: const TextStyle(
                             fontSize: 20,
-                            color: Colors.green,
+                            color: Color.fromARGB(255,0, 118, 182),
                           ),
                           isDense: true,
                         ),

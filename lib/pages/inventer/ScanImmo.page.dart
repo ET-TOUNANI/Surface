@@ -171,7 +171,7 @@ class _ScanImmoState extends State<ScanImmo> {
                     onPressed: () => Navigator.pop(context),
                     style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(Colors.green)),
+                            MaterialStateProperty.all(Color.fromARGB(255,0, 118, 182))),
                     child: Padding(
                       padding: const EdgeInsets.all(4),
                       child: Row(
@@ -262,12 +262,12 @@ class _ScanImmoState extends State<ScanImmo> {
                 SizedBox(
                   width: 300,
                   child: Material(
-                    color: Color.fromARGB(255, 33, 33, 33),
+                    color: Color.fromARGB(255,0, 118, 182),
                     elevation: 8,
                     borderRadius: BorderRadius.circular(10),
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: InkWell(
-                      splashColor: Colors.black26,
+                      splashColor: Color.fromARGB(255,0, 118, 182),
                       onTap: () {
                         scanMe();
                       },
@@ -372,7 +372,7 @@ UpdateAgent(BuildContext context) {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
+                    style: ElevatedButton.styleFrom(primary: Color.fromARGB(255,0, 118, 182)),
                     child: const Text('Oui'),
                     onPressed: () {
                       Navigator.pop(context);
@@ -380,7 +380,7 @@ UpdateAgent(BuildContext context) {
                     },
                   ),
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
+                    style: ElevatedButton.styleFrom(primary: Color.fromARGB(255,0, 118, 182)),
                     child: const Text('Cancel'),
                     onPressed: () => Navigator.pop(context),
                   )
@@ -420,7 +420,7 @@ UpdateLieu(BuildContext context, String item, int id) {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
+                    style: ElevatedButton.styleFrom(primary: Color.fromARGB(255,0, 118, 182)),
                     child: const Text('Oui'),
                     onPressed: () {
                       Navigator.push(
@@ -433,7 +433,7 @@ UpdateLieu(BuildContext context, String item, int id) {
                     },
                   ),
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Color(0xff5F59E1)),
+                    style: ElevatedButton.styleFrom(primary: Color.fromARGB(255,0, 118, 182)),
                     child: const Text('Cancel'),
                     onPressed: () => Navigator.pop(context),
                   )

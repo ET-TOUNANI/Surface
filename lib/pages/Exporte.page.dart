@@ -108,12 +108,12 @@ class _GetFamilleState extends State<Export> {
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                              const BorderSide(color: Color(0xff5F59E1)),
+                              const BorderSide(color: Color.fromARGB(255,0, 118, 182)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                              const BorderSide(color: Color(0xff5F59E1)),
+                              const BorderSide(color: Color.fromARGB(255,0, 118, 182)),
                         ),
                         errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
