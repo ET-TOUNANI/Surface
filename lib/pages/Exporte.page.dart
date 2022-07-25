@@ -22,7 +22,7 @@ class _GetFamilleState extends State<Export> {
   int nbrImmo = 0;
   int nbrFamille = 0;
   String sql =
-      "SELECT f.libelle , i.etat , i.code_bare, l.adresse , l.etage , i.is_exporte "
+      "SELECT f.libelle , i.etat , i.code_bare, l.adresse , l.etage , i.is_exporte , i.is_importer  "
       "FROM immo as i, famille as f , lieu as l  "
       "WHERE f.id==i.id_famille and i.id_lieu==l.id limit 20 ";
   TextEditingController famile = new TextEditingController();
@@ -31,7 +31,7 @@ class _GetFamilleState extends State<Export> {
   Search(searchValue) {
     setState(() {
       sql =
-          "SELECT f.libelle , i.etat , i.code_bare, l.adresse , l.etage  , i.is_exporte "
+          "SELECT f.libelle , i.etat , i.code_bare, l.adresse , l.etage  , i.is_exporte , i.is_importer  "
           "FROM immo as i, famille as f , lieu as l  "
           "WHERE f.libelle like '%$searchValue%' and  f.id==i.id_famille and i.id_lieu==l.id ";
     });
@@ -156,9 +156,9 @@ class _GetFamilleState extends State<Export> {
                 setState(() {
                   checkboxVal = newVal!;
                   sql =
-                      "SELECT f.libelle , i.etat , i.code_bare, l.adresse , l.etage , i.is_exporte "
+                      "SELECT f.libelle , i.etat , i.code_bare, l.adresse , l.etage , i.is_exporte , i.is_importer "
                       "FROM immo as i, famille as f , lieu as l  "
-                      "WHERE f.id==i.id_famille and i.id_lieu==l.id   ${(newVal == true) ? 'and i.is_exporte == 0 and i.is_import == 0' : ' '} limit 20";
+                      "WHERE f.id==i.id_famille and i.id_lieu==l.id   ${(newVal == true) ? 'and i.is_exporte == 0 and i.is_importer == 0' : ' '} limit 20";
                 });
               }),
         ),
@@ -250,7 +250,7 @@ class _GetFamilleState extends State<Export> {
                     shrinkWrap: true,
                     itemBuilder: (context, i) {
                       return Card(
-                        color: (snapshot.data![i]['is_exporte'] == 1)
+                        color: (snapshot.data![i]['is_exporte'] == 1 || snapshot.data![i]['is_importer'] == 1)
                             ? Colors.teal
                             : const Color.fromARGB(255, 52, 52, 52),
                         child: Column(
