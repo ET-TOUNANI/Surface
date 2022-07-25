@@ -73,6 +73,9 @@ class Sqldb {
     "champ2" TEXT,
     "champ3" TEXT,
     "champ4" TEXT,
+    "champ5" TEXT,
+    "champ6" TEXT,
+    "champ7" TEXT,
     "id_situation" INTEGER ,
     FOREIGN KEY("id_situation") REFERENCES situation("id")
     )

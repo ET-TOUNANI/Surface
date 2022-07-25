@@ -158,7 +158,7 @@ class _GetFamilleState extends State<Export> {
                   sql =
                       "SELECT f.libelle , i.etat , i.code_bare, l.adresse , l.etage , i.is_exporte "
                       "FROM immo as i, famille as f , lieu as l  "
-                      "WHERE f.id==i.id_famille and i.id_lieu==l.id   ${(newVal == true) ? 'and i.is_exporte == 0' : ' '} limit 20";
+                      "WHERE f.id==i.id_famille and i.id_lieu==l.id   ${(newVal == true) ? 'and i.is_exporte == 0 and i.is_import == 0' : ' '} limit 20";
                 });
               }),
         ),
@@ -293,7 +293,6 @@ class _GetFamilleState extends State<Export> {
   void exprt(int i) async{
     showAlertDialog(context,"exporting");
     try{
-
       await export(db,i,context);
       Navigator.pop(context);
       await db.rawUpdateData("UPDATE immo SET is_exporte=1");
