@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 
-
-
-
 showAlertDialog(BuildContext context,String operation){
   AlertDialog alert=AlertDialog(
     content: Row(
@@ -23,13 +20,6 @@ showAlertDialog(BuildContext context,String operation){
     },
   );
 }
-
-
-
-
-
-
-
 // export data from db to excel file
 Future<void> export(Sqldb db, int totaliteOrNot,context) async {
   var excel = Excel.createExcel();
@@ -145,8 +135,9 @@ import(context, Sqldb db) async {
       FilePickerResult? result =
       await FilePicker.platform.pickFiles(); // import file from the device
       if (result != null) {
-        if (result.files.first.extension == 'xlsx') {
+        if (result.files.first.extension == 'xlsx' || result.files.first.extension == 'csv') {
           int nbrEnregistrements=0;
+          int nbrSuccess=0;
           // condition of the extension of the file only excel file can be imported
           var bytes = File(result.files.single.path!)
               .readAsBytesSync(); // read the file as bytes
@@ -166,21 +157,25 @@ import(context, Sqldb db) async {
                 immos.add(cell.value);
 
               });
-
-              int idLieu=await db.isExist('select id from lieu where code_bare="${immos[4]}"   ');
               nbrEnregistrements++;
-              if(  idLieu!=-1){
+              String idFamille= (await db.isExist('select id from famille where id="${immos[3]}"')).toString();
+              int idImmo= await db.isExist('select id from immo where code_bare="${immos[0]}"');
+              int idLieu= await db.isExist('select id from lieu where code_bare="${immos[4]}"');
+              if(immos[4]!=null && idLieu !=-1 && idImmo ==-1 && immos[0]!=null && immos[3]!=null && idFamille!="-1"){
+               nbrSuccess++;
                 // add immo to db
                 await db.rawInsertData(
                     'INSERT INTO immo (code_bare,ancien_code_bare,description,is_exporte,is_importer,etat,id_famille,id_lieu) VALUES("${immos[0]}","${immos[0]}","${immos[1]}",0,1,"${immos[2]}","${immos[3]}",$idLieu)');
                 immos.clear();
               }
               else{
+                immos.clear();
                 continue;
               }
             }
           } else {
             nbrEnregistrements=0;
+            nbrSuccess=0;
             // initialisation of apk
             List<dynamic> famille = [];
             int maxRows = excel.sheets['famille']!.maxRows;
@@ -214,19 +209,29 @@ import(context, Sqldb db) async {
                 immos.add(cell.value);
               }); // add immo to db
                nbrEnregistrements++;
-              //String idFamille= await db.isExist('select id from famille where id="${immos[3]}"');
+              String idFamille= (await db.isExist('select id from famille where id="${immos[3]}"')).toString();
+              int idImmo= await db.isExist('select id from immo where code_bare="${immos[0]}"');
               int idLieu= await db.isExist('select id from lieu where code_bare="${immos[4]}"');
-              // add immo to db
-              await db.rawInsertData(
-                  'INSERT INTO immo (code_bare,ancien_code_bare,description,is_exporte,is_importer,etat,id_famille,id_lieu) VALUES("${immos[0]}","${immos[0]}","${immos[1]}",0,1,"${immos[2]}","${immos[3]}",${idLieu})');
-              immos.clear();
+              if(immos[4]!=null && idLieu !=-1 && idImmo ==-1 && immos[0]!=null && immos[3]!=null && idFamille!="-1"){
+                nbrSuccess++;
+                // add immo to db
+                await db.rawInsertData(
+                    'INSERT INTO immo (code_bare,ancien_code_bare,description,is_exporte,is_importer,etat,id_famille,id_lieu) VALUES("${immos[0]}","${immos[0]}","${immos[1]}",0,1,"${immos[2]}","${immos[3]}",${idLieu})');
+                immos.clear();
+              }
+              else{
+                immos.clear();
+                continue;
+
+              }
+
             }
           }
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
              SnackBar(
                 content: Text(
-              "$nbrEnregistrements Enregistrement(s) Importés",
+              "$nbrSuccess Enregistrement(s) Importés avec ${nbrEnregistrements-nbrSuccess} Error(s)",
               style: const TextStyle(color: Colors.green),
             )),
           );
